@@ -9,13 +9,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/bsoncodec"
 	"go.mongodb.org/mongo-driver/bson/bsonrw"
 	"go.mongodb.org/mongo-driver/bson/bsontype"
+	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"go.mongodb.org/mongo-driver/v2/mongo/readpref"
 )
 
-func (d *nullawareDecoder) DecodeValue(dctx bsoncodec.DecodeContext, vr bsonrw.ValueReader, val reflect.Value) error {
-	if vr.Type() != bsontype.Null{
+func (d *nullawareDecoder) DecodeValue(dctx bsoncodec.DecodeContext, vr bsonrw.ValueReader, val reflect.Value) error { //nolint:all
+	if vr.Type() != bsontype.Type(bson.TypeNull) {
 		return d.defDecoder.DecodeValue(dctx, vr, val)
 	}
 
@@ -33,7 +34,8 @@ func (d *nullawareDecoder) DecodeValue(dctx bsoncodec.DecodeContext, vr bsonrw.V
 func NewClient(connection string) (Client, error) {
 
 	time.Local = time.UTC
-	c, err := mongo.Connect(options.Client().ApplyURI(connection))
+	serverApi := options.ServerAPI(options.ServerAPIVersion1)
+	c, err := mongo.Connect(options.Client().ApplyURI(connection).SetServerAPIOptions(serverApi))
 
 	return &mongoClient{cl: c}, err
 
@@ -54,9 +56,8 @@ func (mc *mongoClient) UseSession(ctx context.Context, fn func(context.Context) 
 
 func (mc *mongoClient) StartSession() (mongo.Session, error) {
 	session, err := mc.cl.StartSession()
-	return *session,err
+	return *session, err
 }
-
 
 func (mc *mongoClient) Disconnect(ctx context.Context) error {
 	return mc.cl.Disconnect(ctx)
@@ -96,7 +97,6 @@ func (mc *mongoCollection) Find(ctx context.Context, filter interface{}, opts ..
 	findResult, err := mc.coll.Find(ctx, filter, opts...)
 	return &mongoCursor{mc: findResult}, err
 }
-
 
 func (mc *mongoCollection) Aggregate(ctx context.Context, pipeline interface{}) (Cursor, error) {
 	aggregateResult, err := mc.coll.Aggregate(ctx, pipeline)

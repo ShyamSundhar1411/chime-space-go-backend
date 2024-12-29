@@ -25,11 +25,11 @@ type Client interface {
 	UseSession(ctx context.Context, fn func(context.Context) error) error
 	Ping(ctx context.Context) error
 }
-type Cursor interface{
+type Cursor interface {
 	Close(context.Context) error
 	Next(context.Context) bool
 	Decode(interface{}) error
-	All(context.Context,interface{}) error
+	All(context.Context, interface{}) error
 }
 type mongoClient struct {
 	cl *mongo.Client
@@ -48,7 +48,7 @@ type mongoSingleResult struct {
 type mongoCursor struct {
 	mc *mongo.Cursor
 }
-type nullawareDecoder struct {
+type nullawareDecoder struct { //nolint:all
 	defDecoder bsoncodec.ValueDecoder
 	zeroValue  reflect.Value
 }

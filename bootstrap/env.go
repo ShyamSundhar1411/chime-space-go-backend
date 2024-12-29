@@ -11,7 +11,7 @@ func NewEnv() *Env {
 	viper.SetConfigFile(".env")
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatal("Unable to load environment file :",err)
+		log.Fatal("Unable to load environment file :", err)
 	}
 	err = viper.Unmarshal(&env)
 	if err != nil {
