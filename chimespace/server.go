@@ -3,6 +3,7 @@ package main
 import (
 	"time"
 
+	"github.com/ShyamSundhar1411/chime-space-go-backend/api/route"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/bootstrap"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -26,9 +27,7 @@ func main() {
 		},
 		Timeout: timeout,
 	}))
-	e.GET("/", func(c echo.Context) error {
-		return c.String(200, "Hello World")
-	})
+	route.Setup(env, timeout,db,e)
 	e.Logger.Fatal(e.Start(":8080"))
 
 }
