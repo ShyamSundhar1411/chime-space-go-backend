@@ -6,6 +6,7 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson/bsoncodec"
 	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type Database interface {
@@ -14,6 +15,8 @@ type Database interface {
 }
 type Collection interface {
 	FindOne(context.Context, interface{}) SingleResult
+	InsertOne(context.Context, interface{}) (interface{}, error)
+	Find(context.Context, interface{},...options.Lister[options.FindOptions]) (Cursor, error)
 }
 type SingleResult interface {
 	Decode(interface{}) error
