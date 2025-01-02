@@ -27,7 +27,7 @@ func main() {
 		},
 		Timeout: timeout,
 	}))
-	route.Setup(env, timeout,db,e)
+	route.Setup(env, timeout, db, e)
 	e.Logger.Fatal(e.Start(":8080"))
 
 }

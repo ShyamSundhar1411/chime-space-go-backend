@@ -16,7 +16,7 @@ type Database interface {
 type Collection interface {
 	FindOne(context.Context, interface{}) SingleResult
 	InsertOne(context.Context, interface{}) (interface{}, error)
-	Find(context.Context, interface{},...options.Lister[options.FindOptions]) (Cursor, error)
+	Find(context.Context, interface{}, ...options.Lister[options.FindOptions]) (Cursor, error)
 }
 type SingleResult interface {
 	Decode(interface{}) error

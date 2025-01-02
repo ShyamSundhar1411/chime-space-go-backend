@@ -8,9 +8,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func Setup(env *bootstrap.Env,timeout time.Duration,db mongo.Database,echoEngine *echo.Echo){
+func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, echoEngine *echo.Echo) {
 	publicRouter := echoEngine.Group("")
-	publicRouter.POST("/",func (c echo.Context) error{
+	publicRouter.POST("/", func(c echo.Context) error {
 		return c.String(200, "Hello World")
 	})
 
