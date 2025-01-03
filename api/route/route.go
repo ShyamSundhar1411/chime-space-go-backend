@@ -10,8 +10,6 @@ import (
 
 func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, echoEngine *echo.Echo) {
 	publicRouter := echoEngine.Group("")
-	publicRouter.POST("/", func(c echo.Context) error {
-		return c.String(200, "Hello World")
-	})
+	NewChimeRouter(env, timeout, db, publicRouter)
 
 }
