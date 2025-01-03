@@ -2,19 +2,18 @@ package models
 
 import (
 	"context"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 const (
-	CollectionChime = "chime"
+	CollectionChime = "chimes"
 )
 
 type Chime struct {
-	ID           primitive.ObjectID `bson:"_id"`
-	ChimeTitle   string             `bson:"chime_title"`
-	ChimeContent string             `bson:"chime_content"`
-	CreatedAt    string             `bson:"created_at"`
+	ID           bson.ObjectID `bson:"_id"`
+	ChimeTitle   string        `bson:"chime_title"`
+	ChimeContent string        `bson:"chime_content"`
+	CreatedAt    string        `bson:"created_at"`
 }
 
 type ChimeRepository interface {

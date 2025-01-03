@@ -7,4 +7,3 @@ import (
 type ChimeController struct {
 	ChimeUsecase models.ChimeUsecase
 }
-

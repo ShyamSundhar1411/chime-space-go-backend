@@ -8,12 +8,12 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error{
+func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
 	var chimes []models.Chime
 	ctx := utils.ExtractContext(c)
-	chimes,err := chimeController.ChimeUsecase.Fetch(ctx)
+	chimes, err := chimeController.ChimeUsecase.Fetch(ctx)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError,utils.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
 	}
 	return c.JSON(http.StatusOK, chimes)
 }

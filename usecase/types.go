@@ -8,5 +8,5 @@ import (
 
 type chimeUsecase struct {
 	chimeRepository models.ChimeRepository
-	contextTimeout time.Duration
+	contextTimeout  time.Duration
 }

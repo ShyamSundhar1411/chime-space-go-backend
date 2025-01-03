@@ -12,8 +12,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewChimeRouter(env *bootstrap.Env,timeout time.Duration,db mongo.Database,routerGroup  *echo.Group){
-	chimeRepository := repository.NewChimeRepository(db,models.CollectionChime)
+func NewChimeRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, routerGroup *echo.Group) {
+	chimeRepository := repository.NewChimeRepository(db, models.CollectionChime)
 	chimeController := &controller.ChimeController{
 		ChimeUsecase: usecase.NewChimeUseCase(
 			chimeRepository,

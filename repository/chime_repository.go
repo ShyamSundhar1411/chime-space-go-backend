@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"log"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/mongo"
@@ -24,12 +25,17 @@ func (cr *chimeRepository) Create(c context.Context, chime *models.Chime) error 
 
 func (cr *chimeRepository) Fetch(c context.Context) ([]models.Chime, error) {
 	collection := cr.database.Collection(cr.collection)
-	cursor, err := collection.Find(c, nil)
+	cursor, err := collection.Find(c, bson.D{})
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var chimes []models.Chime
 	err = cursor.All(c, &chimes)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
 	if chimes == nil {
 		return []models.Chime{}, nil
 	}
