@@ -22,3 +22,9 @@ type ChimeRepository interface {
 	Fetch(c context.Context) ([]Chime, error)
 	GetById(c context.Context, id string) (Chime, error)
 }
+
+type ChimeUsecase interface {
+	Create(c context.Context, chime *Chime) error
+	Fetch(c context.Context) ([]Chime, error)
+	GetById(c context.Context, id string) (Chime, error)
+}
