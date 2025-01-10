@@ -11,7 +11,7 @@ const (
 
 type User struct {
 	ID       bson.ObjectID `bson:"_id"`
-	UserMame string        `bson:"username"`
+	UserName string        `bson:"username"`
 	PenName  string        `bson:"penname"`
 	Email    string        `bson:"email"`
 	Password string        `bson:"password"`
