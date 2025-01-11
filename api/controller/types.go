@@ -1,9 +1,13 @@
 package controller
 
 import (
-	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
 )
 
 type ChimeController struct {
-	ChimeUsecase models.ChimeUsecase
+	ChimeUsecase domain.ChimeUsecase
+}
+
+type LoginController struct{
+	LoginUsecase domain.LoginUsecase
 }

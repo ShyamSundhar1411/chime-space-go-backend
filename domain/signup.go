@@ -1,9 +1,8 @@
-package entities
+package domain
 
 import (
 	"context"
 
-	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 )
 
 type SignUpRequest struct {
@@ -19,8 +18,8 @@ type SignUpResponse struct {
 }
 
 type SignUpUsecase interface {
-	Create(c context.Context, user *models.User)error
-	GetUserByUsername(c context.Context, username string)(models.User, error)
-	CreateAccessToken(user *models.User, secret string, expiry int) (accessToken string, err error)
-	CreateRefreshToken(user *models.User,secret string,exprity int)(refreshToken string,err error)
+	Create(c context.Context, user *User)error
+	GetUserByUsername(c context.Context, username string)(User, error)
+	CreateAccessToken(user *User, secret string, expiry int) (accessToken string, err error)
+	CreateRefreshToken(user *User,secret string,exprity int)(refreshToken string,err error)
 }

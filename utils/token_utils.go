@@ -3,13 +3,13 @@ package utils
 import (
 	"time"
 
-	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func CreateAccessToken(user *models.User, secret string, expiry int)(accessToken string,err error){
+func CreateAccessToken(user *domain.User, secret string, expiry int)(accessToken string,err error){
 	exp := time.Now().Add(time.Hour * time.Duration(expiry)).Unix()
-	claims := &models.CustomJWTClaims{
+	claims := &domain.CustomJWTClaims{
 		Name: user.UserName,
 		ID: user.ID.Hex(),
 		Claims: jwt.MapClaims{
@@ -25,9 +25,9 @@ func CreateAccessToken(user *models.User, secret string, expiry int)(accessToken
 	return t,err
 }
 
-func CreateRefreshToken(user *models.User, secret string, expiry int)(refreshToken string, err error){
+func CreateRefreshToken(user *domain.User, secret string, expiry int)(refreshToken string, err error){
 	exp := time.Now().Add(time.Hour * time.Duration(expiry)).Unix()
-	refreshClaims := &models.CustomJWTRefreshClaims{
+	refreshClaims := &domain.CustomJWTRefreshClaims{
 		ID: user.ID.Hex(),
 		Claims: jwt.MapClaims{
 			"exp": exp,
