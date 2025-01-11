@@ -9,10 +9,7 @@ import (
 	"github.com/ShyamSundhar1411/chime-space-go-backend/utils"
 )
 
-type signupUsecase struct {
-	userRepository models.UserRepository
-	contextTimeout time.Duration
-}
+
 
 func NewSignUpUsecase(userRepository models.UserRepository, timeout time.Duration) entities.SignUpUsecase{
 	return &signupUsecase{

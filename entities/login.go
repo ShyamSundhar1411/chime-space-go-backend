@@ -15,7 +15,7 @@ type LoginResponse struct {
 	RefreshToken string `json:"refreshToken"`
 }
 type LoginUsecase interface {
-	GetUserByEmail(c context.Context,email string)(models.User,error)
+	GetUserByUserName(c context.Context,userName string)(models.User,error)
 	CreateAccessToken(user *models.User, secret string, expiry int) (accessToken string, err error)
 	CreateRefreshToken(user *models.User, secret string, expiry int) (refreshToken string, err error)
 }
