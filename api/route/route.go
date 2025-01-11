@@ -11,5 +11,6 @@ import (
 func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, echoEngine *echo.Echo) {
 	publicRouter := echoEngine.Group("")
 	NewChimeRouter(env, timeout, db, publicRouter)
+	NewLoginRouter(env, timeout, db, publicRouter)
 
 }
