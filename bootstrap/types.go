@@ -13,8 +13,8 @@ type Env struct {
 	DBUser                 string `mapstructure:"DB_USER"`
 	AccessTokenExpiryHour  int    `mapstructure:"ACCESS_TOKEN_EXPIRY_HOUR"`
 	RefreshTokenExpiryHour int    `mapstructure:"REFRESH_TOKEN_EXPIRY_HOUR"`
-	AccessTokenPrivateKey  string `mapstructure:"ACCESS_TOKEN_PRIVATE_KEY"`
-	AccessTokenPublicKey   string `mapstructure:"ACCESS_TOKEN_PUBLIC_KEY"`
+	AccessTokenSecretKey  string `mapstructure:"ACCESS_TOKEN_PRIVATE_KEY"`
+	RefreshTokenSecretKey string `mapstructure:"REFRESH_TOKEN_SECRET"`
 }
 
 type Application struct {
