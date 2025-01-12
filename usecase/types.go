@@ -16,7 +16,7 @@ type signupUsecase struct {
 	contextTimeout time.Duration
 }
 
-type loginUsecase struct{
+type loginUsecase struct {
 	userRepository domain.UserRepository
 	contextTimeout time.Duration
 }

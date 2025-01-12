@@ -9,11 +9,11 @@ type ChimeController struct {
 	ChimeUsecase domain.ChimeUsecase
 }
 
-type LoginController struct{
+type LoginController struct {
 	LoginUsecase domain.LoginUsecase
-	Env *bootstrap.Env
+	Env          *bootstrap.Env
 }
-type SignUpController struct{
+type SignUpController struct {
 	SignUpUsecase domain.SignUpUsecase
-	Env *bootstrap.Env
+	Env           *bootstrap.Env
 }

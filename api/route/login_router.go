@@ -12,7 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewLoginRouter(env *bootstrap.Env, timeout time.Duration,db mongo.Database,routerGroup *echo.Group){
+func NewLoginRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, routerGroup *echo.Group) {
 	userRepository := repository.NewUserRepository(db, domain.CollectionUser)
 	loginController := &controller.LoginController{
 		LoginUsecase: usecase.NewLoginUsecase(
@@ -21,6 +21,6 @@ func NewLoginRouter(env *bootstrap.Env, timeout time.Duration,db mongo.Database,
 		),
 		Env: env,
 	}
-	routerGroup.POST("/auth/login/",loginController.Login)
+	routerGroup.POST("/auth/login/", loginController.Login)
 
 }

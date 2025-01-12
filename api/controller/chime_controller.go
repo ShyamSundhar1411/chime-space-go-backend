@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"net/http"
-	"github.com/ShyamSundhar1411/chime-space-go-backend/utils"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/utils"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {

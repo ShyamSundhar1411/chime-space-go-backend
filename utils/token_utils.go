@@ -7,14 +7,13 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func CreateAccessToken(user *domain.User, secret string, expiry int)(accessToken string,err error){
+func CreateAccessToken(user *domain.User, secret string, expiry int) (accessToken string, err error) {
 	exp := time.Now().Add(time.Hour * time.Duration(expiry)).Unix()
 	claims := &domain.CustomJWTClaims{
 		Name: user.UserName,
-		ID: user.ID.Hex(),
+		ID:   user.ID.Hex(),
 		Claims: jwt.MapClaims{
 			"exp": exp,
-		
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -22,16 +21,15 @@ func CreateAccessToken(user *domain.User, secret string, expiry int)(accessToken
 	if err != nil {
 		return "", err
 	}
-	return t,err
+	return t, err
 }
 
-func CreateRefreshToken(user *domain.User, secret string, expiry int)(refreshToken string, err error){
+func CreateRefreshToken(user *domain.User, secret string, expiry int) (refreshToken string, err error) {
 	exp := time.Now().Add(time.Hour * time.Duration(expiry)).Unix()
 	refreshClaims := &domain.CustomJWTRefreshClaims{
 		ID: user.ID.Hex(),
 		Claims: jwt.MapClaims{
 			"exp": exp,
-
 		},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
@@ -39,5 +37,5 @@ func CreateRefreshToken(user *domain.User, secret string, expiry int)(refreshTok
 	if err != nil {
 		return "", err
 	}
-	return t,err
+	return t, err
 }

@@ -2,7 +2,6 @@ package domain
 
 import (
 	"context"
-
 )
 
 type SignUpRequest struct {
@@ -18,8 +17,8 @@ type SignUpResponse struct {
 }
 
 type SignUpUsecase interface {
-	Create(c context.Context, user *User)error
-	GetUserByUsername(c context.Context, username string)(User, error)
+	Create(c context.Context, user *User) error
+	GetUserByUsername(c context.Context, username string) (User, error)
 	CreateAccessToken(user *User, secret string, expiry int) (accessToken string, err error)
-	CreateRefreshToken(user *User,secret string,exprity int)(refreshToken string,err error)
+	CreateRefreshToken(user *User, secret string, exprity int) (refreshToken string, err error)
 }
