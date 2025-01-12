@@ -13,3 +13,7 @@ type LoginController struct{
 	LoginUsecase domain.LoginUsecase
 	Env *bootstrap.Env
 }
+type SignUpController struct{
+	SignUpUsecase domain.SignUpUsecase
+	Env *bootstrap.Env
+}
