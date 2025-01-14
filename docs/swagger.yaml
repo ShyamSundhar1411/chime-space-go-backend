@@ -1,0 +1,49 @@
+basePath: /
+definitions:
+  domain.Chime:
+    properties:
+      chimeContent:
+        type: string
+      chimeTitle:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+    type: object
+  domain.ErrorResponse:
+    properties:
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API documentation for ChimeSpace backend
+  title: ChimeSpace API
+  version: "1.0"
+paths:
+  /chimes:
+    get:
+      consumes:
+      - application/json
+      description: Fetch all Chimes from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Chime'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: Get all Chimes
+      tags:
+      - Chimes
+swagger: "2.0"
