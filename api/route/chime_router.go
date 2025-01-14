@@ -20,7 +20,7 @@ func NewChimeRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database
 			timeout,
 		),
 	}
-	routerGroup.GET("/chimes", chimeController.FetchAllChimes)
+	routerGroup.GET("/chimes/", chimeController.FetchAllChimes)
 	routerGroup.POST("/chime", func(c echo.Context) error {
 		return c.String(201, "Posted, Chimes!")
 	})

@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -6,16 +5,17 @@ import (
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/api/route"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/bootstrap"
+	_ "github.com/ShyamSundhar1411/chime-space-go-backend/docs"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	_ "github.com/ShyamSundhar1411/chime-space-go-backend/docs"
 	"github.com/swaggo/echo-swagger"
 )
-//	@title			ChimeSpace API
-//	@version		1.0
-//	@description	API documentation for ChimeSpace backend
-//	@host			localhost:8080
-//	@BasePath		/
+
+// @title			ChimeSpace API
+// @version		1.0
+// @description	API documentation for ChimeSpace backend
+// @host			localhost:8080
+// @BasePath		/
 func main() {
 	app := bootstrap.App()
 	env := app.Env

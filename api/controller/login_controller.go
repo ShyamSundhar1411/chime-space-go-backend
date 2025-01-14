@@ -9,6 +9,17 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// @Summary		User Login
+// @Description	Logs a user in by validating credentials and returning access and refresh tokens.
+// @Tags			Authentication
+// @Accept			json
+// @Produce		json
+// @Param			loginRequest	body		domain.LoginRequest		true	"Login Request Payload"
+// @Success		200				{object}	domain.LoginResponse	"Login successful, returns access and refresh tokens"
+// @Failure		400				{object}	domain.ErrorResponse	"Invalid request"
+// @Failure		401				{object}	domain.ErrorResponse	"Unauthorized - Invalid credentials or user not found"
+// @Failure		500				{object}	domain.ErrorResponse	"Internal Server Error"
+// @Router			/auth/login/ [post]
 func (loginController *LoginController) Login(c echo.Context) error {
 	var request domain.LoginRequest
 	err := c.Bind(&request)

@@ -18,6 +18,45 @@ definitions:
       status_code:
         type: integer
     type: object
+  domain.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  domain.LoginResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
+  domain.SignUpRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      penName:
+        type: string
+      userName:
+        type: string
+    required:
+    - email
+    - password
+    - userName
+    type: object
+  domain.SignUpResponse:
+    properties:
+      accessToken:
+        type: string
+      refreshToken:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -25,7 +64,77 @@ info:
   title: ChimeSpace API
   version: "1.0"
 paths:
-  /chimes:
+  /auth/login/:
+    post:
+      consumes:
+      - application/json
+      description: Logs a user in by validating credentials and returning access and
+        refresh tokens.
+      parameters:
+      - description: Login Request Payload
+        in: body
+        name: loginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/domain.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful, returns access and refresh tokens
+          schema:
+            $ref: '#/definitions/domain.LoginResponse'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "401":
+          description: Unauthorized - Invalid credentials or user not found
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: User Login
+      tags:
+      - Authentication
+  /auth/signup/:
+    post:
+      consumes:
+      - application/json
+      description: Signs up a new user by validating the fields and returns their
+        access token and refresh token
+      parameters:
+      - description: SignUp Request Payload
+        in: body
+        name: signUpRequest
+        required: true
+        schema:
+          $ref: '#/definitions/domain.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Signup successful, returns access and refresh tokens
+          schema:
+            $ref: '#/definitions/domain.SignUpResponse'
+        "400":
+          description: Bad Request - Invalid or missing parameters in the request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "409":
+          description: Conflict - User already exists
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+        "500":
+          description: Internal Server Error - Issue processing the request
+          schema:
+            $ref: '#/definitions/domain.ErrorResponse'
+      summary: User Signup
+      tags:
+      - Authentication
+  /chimes/:
     get:
       consumes:
       - application/json

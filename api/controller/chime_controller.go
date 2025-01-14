@@ -6,15 +6,17 @@ import (
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
+
 // FetchAllChimes handles the endpoint for fetching all chimes
-// @Summary Get all Chimes
-// @Description Fetch all Chimes from the database
-// @Tags Chimes
-// @Accept json
-// @Produce json
-// @Success 200 {array} domain.Chime
-// @Failure 500 {object} domain.ErrorResponse
-// @Router /chimes [get]
+//
+//	@Summary		Get all Chimes
+//	@Description	Fetch all Chimes from the database
+//	@Tags			Chimes
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{array}		domain.Chime
+//	@Failure		500	{object}	domain.ErrorResponse
+//	@Router			/chimes/ [get]
 func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
 	var chimes []domain.Chime
 	ctx := utils.ExtractContext(c)
