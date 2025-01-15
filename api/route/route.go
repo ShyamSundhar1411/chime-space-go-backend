@@ -11,10 +11,14 @@ import (
 
 func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, echoEngine *echo.Echo) {
 	publicRouter := echoEngine.Group("")
-	NewChimeRouter(env, timeout, db, publicRouter)
+	
 	NewLoginRouter(env, timeout, db, publicRouter)
 	NewSignUpRouter(env, timeout, db, publicRouter)
 	privateRouter := echoEngine.Group("")
-	privateRouter.Use(echojwt.JWT([]byte(env.AccessTokenSecretKey)))
-
+	config := echojwt.Config{
+		SigningKey: []byte(env.AccessTokenSecretKey),
+		
+	}
+	privateRouter.Use(echojwt.WithConfig(config))
+	NewChimeRouter(env, timeout, db, publicRouter,privateRouter)
 }

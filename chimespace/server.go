@@ -10,12 +10,16 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/swaggo/echo-swagger"
 )
-
+// @securityDefinitions.apikey BearerAuth
+// @in              header
+// @name            Authorization
 // @title			ChimeSpace API
 // @version		1.0
 // @description	API documentation for ChimeSpace backend
 // @host			localhost:8080
 // @BasePath		/
+
+
 func main() {
 	app := bootstrap.App()
 	env := app.Env
