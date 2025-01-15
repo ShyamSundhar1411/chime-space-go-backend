@@ -34,6 +34,8 @@ definitions:
         type: string
       refreshToken:
         type: string
+      user:
+        $ref: '#/definitions/domain.User'
     type: object
   domain.SignUpRequest:
     properties:
@@ -55,6 +57,21 @@ definitions:
       accessToken:
         type: string
       refreshToken:
+        type: string
+      user:
+        $ref: '#/definitions/domain.User'
+    type: object
+  domain.User:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      password:
+        type: string
+      penName:
+        type: string
+      userName:
         type: string
     type: object
 host: localhost:8080

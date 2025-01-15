@@ -63,6 +63,7 @@ func (signUpController *SignUpController) SignUp(c echo.Context) error {
 	signupResponse := domain.SignUpResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
+		User: user,
 	}
 	return c.JSON(http.StatusCreated, signupResponse)
 }

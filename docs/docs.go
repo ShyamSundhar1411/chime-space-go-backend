@@ -204,6 +204,9 @@ const docTemplate = `{
                 },
                 "refreshToken": {
                     "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/domain.User"
                 }
             }
         },
@@ -236,6 +239,29 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "refreshToken": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/domain.User"
+                }
+            }
+        },
+        "domain.User": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "penName": {
+                    "type": "string"
+                },
+                "userName": {
                     "type": "string"
                 }
             }
