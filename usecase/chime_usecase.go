@@ -2,9 +2,11 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 func NewChimeUseCase(chimeRepository domain.ChimeRepository, timeout time.Duration) domain.ChimeUsecase {
@@ -14,10 +16,28 @@ func NewChimeUseCase(chimeRepository domain.ChimeRepository, timeout time.Durati
 	}
 }
 
-func (cu *chimeUsecase) Create(c context.Context, chime *domain.Chime) error {
+func (cu *chimeUsecase) CreateChime(c context.Context, request domain.ChimeCreateRequest) (*domain.Chime, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
-	return cu.chimeRepository.Create(ctx, chime)
+	var chime domain.Chime
+	userId, ok := c.Value("userId").(string)
+	if !ok {
+		return nil, fmt.Errorf("user id not found")
+	}
+	primitiveUserId, err := bson.ObjectIDFromHex(userId)
+	if err != nil {
+		return nil, err
+	}
+	chime = domain.Chime{
+		ID:           bson.NewObjectID(),
+		ChimeTitle:   request.ChimeTitle,
+		ChimeContent: request.ChimeContent,
+		IsPrivate:    request.IsPrivate,
+		Author:       primitiveUserId,
+		CreatedAt:    bson.NewDateTimeFromTime(time.Now()),
+	}
+
+	return cu.chimeRepository.CreateChime(ctx, &chime)
 }
 
 func (cu *chimeUsecase) Fetch(c context.Context) ([]domain.Chime, error) {
@@ -32,8 +52,8 @@ func (cu *chimeUsecase) GetById(c context.Context, id string) (domain.Chime, err
 	return cu.chimeRepository.GetById(ctx, id)
 }
 
-func (cu *chimeUsecase) FetchChimeFromUser(c context.Context, userId string) ([]domain.Chime, error) {
+func (cu *chimeUsecase) FetchChimeFromUser(c context.Context) ([]domain.Chime, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
-	return cu.chimeRepository.GetChimeFromUserId(ctx,userId)
+	return cu.chimeRepository.GetChimeFromUserId(ctx)
 }

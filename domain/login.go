@@ -11,7 +11,7 @@ type LoginRequest struct {
 type LoginResponse struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
-	User User `json:"user"`
+	User         User   `json:"user"`
 }
 type LoginUsecase interface {
 	GetUserByUserName(c context.Context, userName string) (User, error)

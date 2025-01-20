@@ -149,6 +149,49 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create a new chime by providing a request body with necessary details.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chimes"
+                ],
+                "summary": "Creates a new Chime",
+                "parameters": [
+                    {
+                        "description": "Chime Create Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.ChimeCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Chime"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    }
+                }
             }
         },
         "/chimes/user/": {
@@ -209,6 +252,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "isPrivate": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "domain.ChimeCreateRequest": {
+            "type": "object",
+            "properties": {
+                "chime_content": {
+                    "type": "string"
+                },
+                "chime_title": {
+                    "type": "string"
+                },
+                "is_private": {
                     "type": "boolean"
                 }
             }

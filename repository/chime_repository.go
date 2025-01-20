@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
@@ -16,16 +17,20 @@ func NewChimeRepository(db mongo.Database, collection string) domain.ChimeReposi
 	}
 }
 
-func (cr *chimeRepository) Create(c context.Context, chime *domain.Chime) error {
+func (cr *chimeRepository) CreateChime(c context.Context, chime *domain.Chime) (*domain.Chime, error) {
 	collection := cr.database.Collection(cr.collection)
 	_, err := collection.InsertOne(c, chime)
-	return err
+	if err != nil {
+		return nil, err
+	}
+	err = collection.FindOne(c, bson.D{{Key: "_id", Value: chime.ID}}).Decode(&chime)
+	return chime, err
 
 }
 
 func (cr *chimeRepository) Fetch(c context.Context) ([]domain.Chime, error) {
 	collection := cr.database.Collection(cr.collection)
-	cursor, err := collection.Find(c, bson.D{{Key:"is_private",Value: false}})
+	cursor, err := collection.Find(c, bson.D{{Key: "is_private", Value: false}})
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -50,17 +55,25 @@ func (cr *chimeRepository) GetById(c context.Context, id string) (domain.Chime, 
 	return chime, err
 }
 
-func (cr *chimeRepository) GetChimeFromUserId(c context.Context, userId string)([] domain.Chime, error){
+func (cr *chimeRepository) GetChimeFromUserId(c context.Context) ([]domain.Chime, error) {
 	collection := cr.database.Collection(cr.collection)
-	cursor, err := collection.Find(c, bson.D{{Key:"author",Value: userId}})
+	userId, ok := c.Value("userId").(string)
+	if !ok || userId == "" {
+		return nil, fmt.Errorf("Invalid user id ")
+	}
+	primitiveUserId, err := bson.ObjectIDFromHex(userId)
+	if err != nil {
+		return nil, err
+	}
+	cursor, err := collection.Find(c, bson.D{{Key: "author", Value: primitiveUserId}})
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 	var chimes []domain.Chime
 	err = cursor.All(c, &chimes)
-	if err!=nil{
-		return nil,err
+	if err != nil {
+		return nil, err
 	}
 	if chimes == nil {
 		return []domain.Chime{}, nil

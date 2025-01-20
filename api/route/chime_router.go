@@ -12,7 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewChimeRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, publicRouterGroup *echo.Group,privateRouterGroup *echo.Group) {
+func NewChimeRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, publicRouterGroup *echo.Group, privateRouterGroup *echo.Group) {
 	chimeRepository := repository.NewChimeRepository(db, domain.CollectionChime)
 	chimeController := &controller.ChimeController{
 		ChimeUsecase: usecase.NewChimeUseCase(
@@ -21,5 +21,6 @@ func NewChimeRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database
 		),
 	}
 	publicRouterGroup.GET("/chimes/", chimeController.FetchAllChimes)
-	privateRouterGroup.GET("/chimes/user/",chimeController.FetchChimeFromUser)
+	privateRouterGroup.GET("/chimes/user/", chimeController.FetchChimeFromUser)
+	privateRouterGroup.POST("/chimes/", chimeController.CreateChime)
 }

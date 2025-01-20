@@ -46,7 +46,7 @@ func (loginController *LoginController) Login(c echo.Context) error {
 	loginResponse := domain.LoginResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
-		User: user,
+		User:         user,
 	}
 	return c.JSON(http.StatusOK, loginResponse)
 
