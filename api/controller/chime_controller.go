@@ -40,6 +40,12 @@ func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
 //	@Router			/chimes/user/ [get]
 //	@Security		BearerAuth
 func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error{
-	user := c.Get("user").(*jwt.Token)
-	return c.JSON(http.StatusOK,user)
+	userID := c.Get("user").(*jwt.Token).Claims.(jwt.MapClaims)["id"].(string)
+	var chimes []domain.Chime
+	ctx := utils.ExtractContext(c)
+	chimes,err := chimeController.ChimeUsecase.FetchChimeFromUser(ctx,userID)
+	if err != nil{
+		return c.JSON(http.StatusBadRequest,domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
+	}
+	return c.JSON(http.StatusOK, chimes)
 }

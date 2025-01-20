@@ -31,3 +31,9 @@ func (cu *chimeUsecase) GetById(c context.Context, id string) (domain.Chime, err
 	defer cancel()
 	return cu.chimeRepository.GetById(ctx, id)
 }
+
+func (cu *chimeUsecase) FetchChimeFromUser(c context.Context, userId string) ([]domain.Chime, error) {
+	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
+	defer cancel()
+	return cu.chimeRepository.GetChimeFromUserId(ctx,userId)
+}

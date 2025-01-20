@@ -182,6 +182,9 @@
         "domain.Chime": {
             "type": "object",
             "properties": {
+                "author": {
+                    "type": "string"
+                },
                 "chimeContent": {
                     "type": "string"
                 },
@@ -193,6 +196,9 @@
                 },
                 "id": {
                     "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
                 }
             }
         },

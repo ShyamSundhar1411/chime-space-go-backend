@@ -193,6 +193,9 @@ const docTemplate = `{
         "domain.Chime": {
             "type": "object",
             "properties": {
+                "author": {
+                    "type": "string"
+                },
                 "chimeContent": {
                     "type": "string"
                 },
@@ -204,6 +207,9 @@ const docTemplate = `{
                 },
                 "id": {
                     "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
                 }
             }
         },

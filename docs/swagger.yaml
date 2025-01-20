@@ -1,6 +1,8 @@
 definitions:
   domain.Chime:
     properties:
+      author:
+        type: string
       chimeContent:
         type: string
       chimeTitle:
@@ -9,6 +11,8 @@ definitions:
         type: string
       id:
         type: string
+      isPrivate:
+        type: boolean
     type: object
   domain.ErrorResponse:
     properties:
