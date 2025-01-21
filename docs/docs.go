@@ -138,14 +138,14 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Chime"
+                                "$ref": "#/definitions/domain.ChimeListResponse"
                             }
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.ChimeListResponse"
                         }
                     }
                 }
@@ -188,7 +188,7 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.ChimeResponse"
                         }
                     }
                 }
@@ -225,7 +225,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.ChimeListResponse"
                         }
                     }
                 }
@@ -267,6 +267,37 @@ const docTemplate = `{
                 },
                 "is_private": {
                     "type": "boolean"
+                }
+            }
+        },
+        "domain.ChimeListResponse": {
+            "type": "object",
+            "properties": {
+                "chimes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.Chime"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.ChimeResponse": {
+            "type": "object",
+            "properties": {
+                "chime": {
+                    "$ref": "#/definitions/domain.Chime"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "integer"
                 }
             }
         },

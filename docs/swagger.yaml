@@ -23,6 +23,26 @@ definitions:
       is_private:
         type: boolean
     type: object
+  domain.ChimeListResponse:
+    properties:
+      chimes:
+        items:
+          $ref: '#/definitions/domain.Chime'
+        type: array
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+  domain.ChimeResponse:
+    properties:
+      chime:
+        $ref: '#/definitions/domain.Chime'
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
   domain.ErrorResponse:
     properties:
       message:
@@ -171,12 +191,12 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/domain.Chime'
+              $ref: '#/definitions/domain.ChimeListResponse'
             type: array
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/domain.ErrorResponse'
+            $ref: '#/definitions/domain.ChimeListResponse'
       summary: Get all Chimes
       tags:
       - Chimes
@@ -201,7 +221,7 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/domain.ErrorResponse'
+            $ref: '#/definitions/domain.ChimeResponse'
       security:
       - BearerAuth: []
       summary: Creates a new Chime
@@ -224,7 +244,7 @@ paths:
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/domain.ErrorResponse'
+            $ref: '#/definitions/domain.ChimeListResponse'
       security:
       - BearerAuth: []
       summary: Get all Chimes of logged in user

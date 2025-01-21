@@ -15,17 +15,27 @@ import (
 //	@Tags			Chimes
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{array}		domain.Chime
-//	@Failure		500	{object}	domain.ErrorResponse
+//	@Success		200	{array}		domain.ChimeListResponse
+//	@Failure		500	{object}	domain.ChimeListResponse
 //	@Router			/chimes/ [get]
 func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
 	var chimes []domain.Chime
 	ctx := utils.ExtractContext(c)
 	chimes, err := chimeController.ChimeUsecase.Fetch(ctx)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
+		response := domain.ChimeListResponse{
+			Message:    err.Error(),
+			StatusCode: http.StatusInternalServerError,
+			Chimes:     nil,
+		}
+		return c.JSON(http.StatusInternalServerError, response)
 	}
-	return c.JSON(http.StatusOK, chimes)
+	response := domain.ChimeListResponse{
+		Message:    "Chimes fetched successfully",
+		StatusCode: http.StatusOK,
+		Chimes:     chimes,
+	}
+	return c.JSON(http.StatusOK, response)
 }
 
 // FetchAllChimes authored by the logged in user
@@ -36,7 +46,7 @@ func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{array}		domain.Chime
-//	@Failure		500	{object}	domain.ErrorResponse
+//	@Failure		500	{object}	domain.ChimeListResponse
 //	@Router			/chimes/user/ [get]
 //	@Security		BearerAuth
 func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error {
@@ -44,9 +54,19 @@ func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error
 	ctx := utils.ExtractContext(c)
 	chimes, err := chimeController.ChimeUsecase.FetchChimeFromUser(ctx)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
+		response := domain.ChimeListResponse{
+			Message:    err.Error(),
+			StatusCode: http.StatusBadRequest,
+			Chimes:     nil,
+		}
+		return c.JSON(http.StatusBadRequest, response)
 	}
-	return c.JSON(http.StatusOK, chimes)
+	response := domain.ChimeListResponse{
+		Message:    "Chimes fetched successfully",
+		StatusCode: http.StatusOK,
+		Chimes:     chimes,
+	}
+	return c.JSON(http.StatusOK, response)
 }
 
 // Creates a Chime
@@ -58,7 +78,7 @@ func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error
 //	@Produce		json
 //	@Param			request	body		domain.ChimeCreateRequest	true	"Chime Create Request"
 //	@Success		201		{object}	domain.Chime
-//	@Failure		400		{object}	domain.ErrorResponse
+//	@Failure		400		{object}	domain.ChimeResponse
 //	@Router			/chimes/ [post]
 //	@Security		BearerAuth
 func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
@@ -71,7 +91,9 @@ func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
 	ctx := utils.ExtractContext(c)
 	chime, err = ChimeController.ChimeUsecase.CreateChime(ctx, request)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
+		chimeResponse := domain.ChimeResponse{Message: err.Error(), StatusCode: http.StatusBadRequest, Chime: chime}
+		return c.JSON(http.StatusBadRequest, chimeResponse)
 	}
-	return c.JSON(http.StatusCreated, chime)
+	chimeResponse := domain.ChimeResponse{Message: "Chime created successfully", StatusCode: http.StatusCreated, Chime: chime}
+	return c.JSON(http.StatusCreated, chimeResponse)
 }
