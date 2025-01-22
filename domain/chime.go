@@ -11,27 +11,27 @@ const (
 )
 
 type Chime struct {
-	ID           bson.ObjectID `bson:"_id"`
-	ChimeTitle   string        `bson:"chime_title"`
-	ChimeContent string        `bson:"chime_content"`
-	CreatedAt    bson.DateTime `bson:"created_at" swaggertype:"primitive,string"`
-	Author       bson.ObjectID `bson:"author"`
-	IsPrivate    bool          `bson:"is_private"`
+	ID           bson.ObjectID `bson:"_id" json:"id"`
+	ChimeTitle   string        `bson:"chime_title" json:"chimeTitle"`
+	ChimeContent string        `bson:"chime_content" json:"chimeContent"`
+	CreatedAt    bson.DateTime `bson:"created_at" json:"createdAt" swaggertype:"primitive,string"`
+	Author       bson.ObjectID `bson:"author" json:"author"`
+	IsPrivate    bool          `bson:"is_private" json:"isPrivate"`
 }
 type ChimeCreateRequest struct {
-	ChimeTitle   string `json:"chime_title"`
-	ChimeContent string `json:"chime_content"`
-	IsPrivate    bool   `json:"is_private"`
+	ChimeTitle   string `json:"chimeTitle" form:"chimeTitle" binding:"required"`
+	ChimeContent string `json:"chimeContent" form:"chimeContent" binding:"required"`
+	IsPrivate    bool   `json:"isPrivate" form:"isPrivate" binding:"required"`
 }
 
 type ChimeResponse struct {
 	Message    string `json:"message"`
-	StatusCode int    `json:"status_code"`
+	StatusCode int    `json:"statusCode"`
 	Chime      *Chime `json:"chime"`
 }
 type ChimeListResponse struct {
 	Message    string  `json:"message"`
-	StatusCode int     `json:"status_code"`
+	StatusCode int     `json:"statusCode"`
 	Chimes     []Chime `json:"chimes"`
 }
 

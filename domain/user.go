@@ -10,11 +10,11 @@ const (
 )
 
 type User struct {
-	ID       bson.ObjectID `bson:"_id"`
-	UserName string        `bson:"username"`
-	PenName  string        `bson:"penname"`
-	Email    string        `bson:"email"`
-	Password string        `bson:"password"`
+	ID       bson.ObjectID `bson:"_id" json:"id"`
+	UserName string        `bson:"username" json:"userName"`
+	PenName  string        `bson:"penname" json:"penName"`
+	Email    string        `bson:"email" json:"email"`
+	Password string        `bson:"password" json:"password"`
 }
 
 type UserRepository interface {

@@ -258,14 +258,19 @@ const docTemplate = `{
         },
         "domain.ChimeCreateRequest": {
             "type": "object",
+            "required": [
+                "chimeContent",
+                "chimeTitle",
+                "isPrivate"
+            ],
             "properties": {
-                "chime_content": {
+                "chimeContent": {
                     "type": "string"
                 },
-                "chime_title": {
+                "chimeTitle": {
                     "type": "string"
                 },
-                "is_private": {
+                "isPrivate": {
                     "type": "boolean"
                 }
             }
@@ -282,7 +287,7 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
-                "status_code": {
+                "statusCode": {
                     "type": "integer"
                 }
             }
@@ -296,7 +301,7 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
-                "status_code": {
+                "statusCode": {
                     "type": "integer"
                 }
             }

@@ -16,12 +16,16 @@ definitions:
     type: object
   domain.ChimeCreateRequest:
     properties:
-      chime_content:
+      chimeContent:
         type: string
-      chime_title:
+      chimeTitle:
         type: string
-      is_private:
+      isPrivate:
         type: boolean
+    required:
+    - chimeContent
+    - chimeTitle
+    - isPrivate
     type: object
   domain.ChimeListResponse:
     properties:
@@ -31,7 +35,7 @@ definitions:
         type: array
       message:
         type: string
-      status_code:
+      statusCode:
         type: integer
     type: object
   domain.ChimeResponse:
@@ -40,7 +44,7 @@ definitions:
         $ref: '#/definitions/domain.Chime'
       message:
         type: string
-      status_code:
+      statusCode:
         type: integer
     type: object
   domain.ErrorResponse:

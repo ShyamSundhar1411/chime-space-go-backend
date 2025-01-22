@@ -247,14 +247,19 @@
         },
         "domain.ChimeCreateRequest": {
             "type": "object",
+            "required": [
+                "chimeContent",
+                "chimeTitle",
+                "isPrivate"
+            ],
             "properties": {
-                "chime_content": {
+                "chimeContent": {
                     "type": "string"
                 },
-                "chime_title": {
+                "chimeTitle": {
                     "type": "string"
                 },
-                "is_private": {
+                "isPrivate": {
                     "type": "boolean"
                 }
             }
@@ -271,7 +276,7 @@
                 "message": {
                     "type": "string"
                 },
-                "status_code": {
+                "statusCode": {
                     "type": "integer"
                 }
             }
@@ -285,7 +290,7 @@
                 "message": {
                     "type": "string"
                 },
-                "status_code": {
+                "statusCode": {
                     "type": "integer"
                 }
             }
