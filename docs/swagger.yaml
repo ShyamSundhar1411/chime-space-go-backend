@@ -14,7 +14,7 @@ definitions:
       isPrivate:
         type: boolean
     type: object
-  domain.ChimeCreateRequest:
+  domain.ChimeCreateOrUpdateRequest:
     properties:
       chimeContent:
         type: string
@@ -214,7 +214,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/domain.ChimeCreateRequest'
+          $ref: '#/definitions/domain.ChimeCreateOrUpdateRequest'
       produces:
       - application/json
       responses:
@@ -229,6 +229,40 @@ paths:
       security:
       - BearerAuth: []
       summary: Creates a new Chime
+      tags:
+      - Chimes
+  /chimes/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update an existing chime by providing the chime ID and updated
+        details
+      parameters:
+      - description: Chime ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Chime Update Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/domain.ChimeCreateOrUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Chime'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.ChimeResponse'
+      security:
+      - BearerAuth: []
+      summary: Update an existing Chime
       tags:
       - Chimes
   /chimes/user/:

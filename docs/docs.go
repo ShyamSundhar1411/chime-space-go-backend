@@ -174,7 +174,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/domain.ChimeCreateRequest"
+                            "$ref": "#/definitions/domain.ChimeCreateOrUpdateRequest"
                         }
                     }
                 ],
@@ -230,6 +230,58 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/chimes/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update an existing chime by providing the chime ID and updated details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chimes"
+                ],
+                "summary": "Update an existing Chime",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Chime ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Chime Update Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.ChimeCreateOrUpdateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.Chime"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ChimeResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -256,7 +308,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.ChimeCreateRequest": {
+        "domain.ChimeCreateOrUpdateRequest": {
             "type": "object",
             "required": [
                 "chimeContent",

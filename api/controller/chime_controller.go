@@ -76,14 +76,14 @@ func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error
 //	@Tags			Chimes
 //	@Accept			json
 //	@Produce		json
-//	@Param			request	body		domain.ChimeCreateRequest	true	"Chime Create Request"
+//	@Param			request	body		domain.ChimeCreateOrUpdateRequest	true	"Chime Create Request"
 //	@Success		201		{object}	domain.Chime
 //	@Failure		400		{object}	domain.ChimeResponse
 //	@Router			/chimes/ [post]
 //	@Security		BearerAuth
 func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
 	var chime *domain.Chime
-	var request domain.ChimeCreateRequest
+	var request domain.ChimeCreateOrUpdateRequest
 	err := c.Bind(&request)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
@@ -96,4 +96,34 @@ func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
 	}
 	chimeResponse := domain.ChimeResponse{Message: "Chime created successfully", StatusCode: http.StatusCreated, Chime: chime}
 	return c.JSON(http.StatusCreated, chimeResponse)
+}
+// UpdateChime updates an existing Chime
+//
+//	@Summary		Update an existing Chime
+//	@Description	Update an existing chime by providing the chime ID and updated details
+//	@Tags			Chimes
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		string							true	"Chime ID"
+//	@Param			request	body		domain.ChimeCreateOrUpdateRequest	true	"Chime Update Request"
+//	@Success		200		{object}	domain.Chime
+//	@Failure		400		{object}	domain.ChimeResponse
+//	@Router			/chimes/{id} [put]
+//	@Security		BearerAuth
+func (ChimeController *ChimeController) UpdateChime(c echo.Context) error {
+	var chime *domain.Chime
+	var request domain.ChimeCreateOrUpdateRequest
+	id := c.Param("id")
+	err := c.Bind(&request)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
+	}
+	ctx := utils.ExtractContext(c)
+	chime,err = ChimeController.ChimeUsecase.UpdateChime(ctx,request,id)
+	if err != nil {
+		chimeResponse := domain.ChimeResponse{Message: err.Error(), StatusCode: http.StatusBadRequest, Chime: chime}
+		return c.JSON(http.StatusBadRequest, chimeResponse)
+	}
+	chimeResponse := domain.ChimeResponse{Message: "Chime updated successfully", StatusCode: http.StatusOK, Chime: chime}
+	return c.JSON(http.StatusOK, chimeResponse)
 }

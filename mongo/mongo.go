@@ -107,6 +107,10 @@ func (mc *mongoCollection) UpdateMany(ctx context.Context, filter interface{}, u
 	return mc.coll.UpdateMany(ctx, filter, update, opts[:]...)
 }
 
+func(mc *mongoCollection) UpdateOne(ctx context.Context, filter interface{}, update interface{}, opts ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error) {
+	return mc.coll.UpdateOne(ctx, filter, update, opts[:]...)
+}
+
 func (mc *mongoCollection) CountDocuments(ctx context.Context, filter interface{}, opts ...options.Lister[options.CountOptions]) (int64, error) {
 	return mc.coll.CountDocuments(ctx, filter, opts...)
 }

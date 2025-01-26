@@ -18,7 +18,7 @@ type Chime struct {
 	Author       bson.ObjectID `bson:"author" json:"author"`
 	IsPrivate    bool          `bson:"is_private" json:"isPrivate"`
 }
-type ChimeCreateRequest struct {
+type ChimeCreateOrUpdateRequest struct {
 	ChimeTitle   string `json:"chimeTitle" form:"chimeTitle" binding:"required"`
 	ChimeContent string `json:"chimeContent" form:"chimeContent" binding:"required"`
 	IsPrivate    bool   `json:"isPrivate" form:"isPrivate" binding:"required"`
@@ -40,11 +40,13 @@ type ChimeRepository interface {
 	Fetch(c context.Context) ([]Chime, error)
 	GetById(c context.Context, id string) (Chime, error)
 	GetChimeFromUserId(c context.Context) ([]Chime, error)
+	UpdateChime(c context.Context, chimeData ChimeCreateOrUpdateRequest, id string)(*Chime, error)
 }
 
 type ChimeUsecase interface {
-	CreateChime(c context.Context, chime ChimeCreateRequest) (*Chime, error)
+	CreateChime(c context.Context, chime ChimeCreateOrUpdateRequest) (*Chime, error)
 	Fetch(c context.Context) ([]Chime, error)
 	GetById(c context.Context, id string) (Chime, error)
 	FetchChimeFromUser(c context.Context) ([]Chime, error)
+	UpdateChime(c context.Context, chime ChimeCreateOrUpdateRequest, id string) (*Chime, error)
 }

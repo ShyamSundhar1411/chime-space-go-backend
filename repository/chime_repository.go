@@ -80,3 +80,42 @@ func (cr *chimeRepository) GetChimeFromUserId(c context.Context) ([]domain.Chime
 	}
 	return chimes, err
 }
+
+func(cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.ChimeCreateOrUpdateRequest, id string)(*domain.Chime, error) {
+	collection := cr.database.Collection(cr.collection)
+	userId,ok := c.Value("userId").(string)
+	if !ok || userId == "" {
+		return nil, fmt.Errorf("Invalid user id ")
+	}
+	primitiveUserId, err := bson.ObjectIDFromHex(userId)
+	if err != nil {
+		return nil, err
+	}
+	prmitiveChimeId, err := bson.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	filter := bson.D{{Key: "_id", Value: prmitiveChimeId},{Key:"author",Value:primitiveUserId}}
+	
+	update := bson.M{
+		"$set": bson.M{
+			"chime_title":   chimeData.ChimeTitle,
+			"chime_content": chimeData.ChimeContent,
+			"is_private":    chimeData.IsPrivate,
+		},
+	}
+	result,err := collection.UpdateOne(c, filter , update)	
+	if err != nil {
+		return nil, err
+	}
+	if result.MatchedCount == 0 {
+		return nil, fmt.Errorf("Chime not found")
+	}
+	
+	var updatedChime domain.Chime
+	err = collection.FindOne(c, bson.D{{Key: "_id", Value: prmitiveChimeId}}).Decode(&updatedChime)
+	if err != nil {
+		return nil, err
+	}
+	return &updatedChime, nil
+}
