@@ -333,7 +333,7 @@ const docTemplate = `{
                 "chimes": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/domain.Chime"
+                        "$ref": "#/definitions/domain.ChimeWithAuthor"
                     }
                 },
                 "message": {
@@ -348,13 +348,36 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "chime": {
-                    "$ref": "#/definitions/domain.Chime"
+                    "$ref": "#/definitions/domain.ChimeWithAuthor"
                 },
                 "message": {
                     "type": "string"
                 },
                 "statusCode": {
                     "type": "integer"
+                }
+            }
+        },
+        "domain.ChimeWithAuthor": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "$ref": "#/definitions/domain.User"
+                },
+                "chimeContent": {
+                    "type": "string"
+                },
+                "chimeTitle": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
                 }
             }
         },

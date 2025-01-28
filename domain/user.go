@@ -14,7 +14,7 @@ type User struct {
 	UserName string        `bson:"username" json:"userName"`
 	PenName  string        `bson:"penname" json:"penName"`
 	Email    string        `bson:"email" json:"email"`
-	Password string        `bson:"password" json:"password"`
+	Password string        `bson:"password" json:"password,omitempty"`
 }
 
 type UserRepository interface {

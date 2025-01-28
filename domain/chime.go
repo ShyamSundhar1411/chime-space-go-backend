@@ -18,6 +18,12 @@ type Chime struct {
 	Author       bson.ObjectID `bson:"author" json:"author"`
 	IsPrivate    bool          `bson:"is_private" json:"isPrivate"`
 }
+
+type ChimeWithAuthor struct {
+    Chime 	`json:",inline" bson:",inline"` 
+    Author User  `json:"author"` 
+}
+
 type ChimeCreateOrUpdateRequest struct {
 	ChimeTitle   string `json:"chimeTitle" form:"chimeTitle" binding:"required"`
 	ChimeContent string `json:"chimeContent" form:"chimeContent" binding:"required"`
@@ -27,26 +33,26 @@ type ChimeCreateOrUpdateRequest struct {
 type ChimeResponse struct {
 	Message    string `json:"message"`
 	StatusCode int    `json:"statusCode"`
-	Chime      *Chime `json:"chime"`
+	Chime      *ChimeWithAuthor `json:"chime"`
 }
 type ChimeListResponse struct {
 	Message    string  `json:"message"`
 	StatusCode int     `json:"statusCode"`
-	Chimes     []Chime `json:"chimes"`
+	Chimes     []ChimeWithAuthor `json:"chimes"`
 }
 
 type ChimeRepository interface {
-	CreateChime(c context.Context, chime *Chime) (*Chime, error)
-	Fetch(c context.Context) ([]Chime, error)
-	GetById(c context.Context, id string) (Chime, error)
-	GetChimeFromUserId(c context.Context) ([]Chime, error)
-	UpdateChime(c context.Context, chimeData ChimeCreateOrUpdateRequest, id string)(*Chime, error)
+	CreateChime(c context.Context, chime *Chime) (*ChimeWithAuthor, error)
+	Fetch(c context.Context) ([]ChimeWithAuthor, error)
+	GetById(c context.Context, id string) (*ChimeWithAuthor, error)
+	GetChimeFromUserId(c context.Context) ([]ChimeWithAuthor, error)
+	UpdateChime(c context.Context, chimeData ChimeCreateOrUpdateRequest, id string)(*ChimeWithAuthor, error)
 }
 
 type ChimeUsecase interface {
-	CreateChime(c context.Context, chime ChimeCreateOrUpdateRequest) (*Chime, error)
-	Fetch(c context.Context) ([]Chime, error)
-	GetById(c context.Context, id string) (Chime, error)
-	FetchChimeFromUser(c context.Context) ([]Chime, error)
-	UpdateChime(c context.Context, chime ChimeCreateOrUpdateRequest, id string) (*Chime, error)
+	CreateChime(c context.Context, chime ChimeCreateOrUpdateRequest) (*ChimeWithAuthor, error)
+	Fetch(c context.Context) ([]ChimeWithAuthor, error)
+	GetById(c context.Context, id string) (*ChimeWithAuthor, error)
+	FetchChimeFromUser(c context.Context) ([]ChimeWithAuthor, error)
+	UpdateChime(c context.Context, chime ChimeCreateOrUpdateRequest, id string) (*ChimeWithAuthor, error)
 }

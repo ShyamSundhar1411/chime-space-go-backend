@@ -19,7 +19,7 @@ import (
 //	@Failure		500	{object}	domain.ChimeListResponse
 //	@Router			/chimes/ [get]
 func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
-	var chimes []domain.Chime
+	var chimes []domain.ChimeWithAuthor
 	ctx := utils.ExtractContext(c)
 	chimes, err := chimeController.ChimeUsecase.Fetch(ctx)
 	if err != nil {
@@ -50,7 +50,7 @@ func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
 //	@Router			/chimes/user/ [get]
 //	@Security		BearerAuth
 func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error {
-	var chimes []domain.Chime
+	var chimes []domain.ChimeWithAuthor
 	ctx := utils.ExtractContext(c)
 	chimes, err := chimeController.ChimeUsecase.FetchChimeFromUser(ctx)
 	if err != nil {
@@ -82,7 +82,7 @@ func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error
 //	@Router			/chimes/ [post]
 //	@Security		BearerAuth
 func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
-	var chime *domain.Chime
+	var chime *domain.ChimeWithAuthor
 	var request domain.ChimeCreateOrUpdateRequest
 	err := c.Bind(&request)
 	if err != nil {
@@ -111,7 +111,7 @@ func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
 //	@Router			/chimes/{id} [put]
 //	@Security		BearerAuth
 func (ChimeController *ChimeController) UpdateChime(c echo.Context) error {
-	var chime *domain.Chime
+	var chime *domain.ChimeWithAuthor
 	var request domain.ChimeCreateOrUpdateRequest
 	id := c.Param("id")
 	err := c.Bind(&request)

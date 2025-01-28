@@ -16,7 +16,7 @@ func NewChimeUseCase(chimeRepository domain.ChimeRepository, timeout time.Durati
 	}
 }
 
-func (cu *chimeUsecase) CreateChime(c context.Context, request domain.ChimeCreateOrUpdateRequest) (*domain.Chime, error) {
+func (cu *chimeUsecase) CreateChime(c context.Context, request domain.ChimeCreateOrUpdateRequest) (*domain.ChimeWithAuthor, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
 	var chime domain.Chime
@@ -40,25 +40,25 @@ func (cu *chimeUsecase) CreateChime(c context.Context, request domain.ChimeCreat
 	return cu.chimeRepository.CreateChime(ctx, &chime)
 }
 
-func (cu *chimeUsecase) Fetch(c context.Context) ([]domain.Chime, error) {
+func (cu *chimeUsecase) Fetch(c context.Context) ([]domain.ChimeWithAuthor, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
 	return cu.chimeRepository.Fetch(ctx)
 }
 
-func (cu *chimeUsecase) GetById(c context.Context, id string) (domain.Chime, error) {
+func (cu *chimeUsecase) GetById(c context.Context, id string) (*domain.ChimeWithAuthor, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
 	return cu.chimeRepository.GetById(ctx, id)
 }
 
-func (cu *chimeUsecase) FetchChimeFromUser(c context.Context) ([]domain.Chime, error) {
+func (cu *chimeUsecase) FetchChimeFromUser(c context.Context) ([]domain.ChimeWithAuthor, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
 	return cu.chimeRepository.GetChimeFromUserId(ctx)
 }
 
-func (cu *chimeUsecase) UpdateChime(c context.Context,request domain.ChimeCreateOrUpdateRequest,id string)(*domain.Chime,error){
+func (cu *chimeUsecase) UpdateChime(c context.Context,request domain.ChimeCreateOrUpdateRequest,id string)(*domain.ChimeWithAuthor,error){
 	ctx, cancel := context.WithTimeout(c,cu.contextTimeout)
 	defer cancel()
 	return cu.chimeRepository.UpdateChime(ctx, request, id)

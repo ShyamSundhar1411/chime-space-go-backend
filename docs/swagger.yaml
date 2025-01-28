@@ -31,7 +31,7 @@ definitions:
     properties:
       chimes:
         items:
-          $ref: '#/definitions/domain.Chime'
+          $ref: '#/definitions/domain.ChimeWithAuthor'
         type: array
       message:
         type: string
@@ -41,11 +41,26 @@ definitions:
   domain.ChimeResponse:
     properties:
       chime:
-        $ref: '#/definitions/domain.Chime'
+        $ref: '#/definitions/domain.ChimeWithAuthor'
       message:
         type: string
       statusCode:
         type: integer
+    type: object
+  domain.ChimeWithAuthor:
+    properties:
+      author:
+        $ref: '#/definitions/domain.User'
+      chimeContent:
+        type: string
+      chimeTitle:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      isPrivate:
+        type: boolean
     type: object
   domain.ErrorResponse:
     properties:
