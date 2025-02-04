@@ -61,6 +61,8 @@ func (signUpController *SignUpController) SignUp(c echo.Context) error {
 
 	}
 	signupResponse := domain.SignUpResponse{
+		StatusCode:   http.StatusCreated,
+		Message:      "Signup successful",
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		User:         user,

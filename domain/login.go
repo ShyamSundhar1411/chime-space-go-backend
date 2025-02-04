@@ -8,7 +8,10 @@ type LoginRequest struct {
 	UserName string `form:"username" binding:"required,username"`
 	Password string `form:"password" binding:"required"`
 }
+
 type LoginResponse struct {
+	Message      string `json:"message"`
+	StatusCode   int    `json:"statusCode"`
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 	User         User   `json:"user"`

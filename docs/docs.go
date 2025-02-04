@@ -413,8 +413,14 @@ const docTemplate = `{
                 "accessToken": {
                     "type": "string"
                 },
+                "message": {
+                    "type": "string"
+                },
                 "refreshToken": {
                     "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer"
                 },
                 "user": {
                     "$ref": "#/definitions/domain.User"
@@ -449,8 +455,14 @@ const docTemplate = `{
                 "accessToken": {
                     "type": "string"
                 },
+                "message": {
+                    "type": "string"
+                },
                 "refreshToken": {
                     "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer"
                 },
                 "user": {
                     "$ref": "#/definitions/domain.User"
@@ -464,9 +476,6 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
-                    "type": "string"
-                },
-                "password": {
                     "type": "string"
                 },
                 "penName": {

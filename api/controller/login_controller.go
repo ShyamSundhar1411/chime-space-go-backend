@@ -43,7 +43,10 @@ func (loginController *LoginController) Login(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusInternalServerError})
 
 	}
+
 	loginResponse := domain.LoginResponse{
+		StatusCode:   http.StatusOK,
+		Message:      "Login successful",
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		User:         user,

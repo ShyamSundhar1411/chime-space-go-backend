@@ -9,31 +9,31 @@ import (
 	"github.com/ShyamSundhar1411/chime-space-go-backend/mongo"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
+
 func buildChimePipeline(matchFilter bson.M) []bson.M {
-    return []bson.M{
-        {"$match": matchFilter},
-        {"$lookup": bson.M{
-            "from":         "users",
-            "localField":   "author",
-            "foreignField": "_id",
-            "as":           "author",
-        }},
-        {"$unwind": "$author"},
+	return []bson.M{
+		{"$match": matchFilter},
+		{"$lookup": bson.M{
+			"from":         "users",
+			"localField":   "author",
+			"foreignField": "_id",
+			"as":           "author",
+		}},
+		{"$unwind": "$author"},
 		{
 			"$project": bson.M{
-				"_id":1,
-				"chime_title":1,
-				"chime_content":1,
-				"created_at":1,
-				"is_private":1,
-				"author._id":1,
-				"author.username":1,
-				"author.penname":1,
-				"author.email":1,
-
+				"_id":             1,
+				"chime_title":     1,
+				"chime_content":   1,
+				"created_at":      1,
+				"is_private":      1,
+				"author._id":      1,
+				"author.username": 1,
+				"author.penname":  1,
+				"author.email":    1,
 			},
 		},
-    }
+	}
 }
 func NewChimeRepository(db mongo.Database, collection string) domain.ChimeRepository {
 	return &chimeRepository{
@@ -44,12 +44,11 @@ func NewChimeRepository(db mongo.Database, collection string) domain.ChimeReposi
 
 func (cr *chimeRepository) CreateChime(c context.Context, chime *domain.Chime) (*domain.ChimeWithAuthor, error) {
 	collection := cr.database.Collection(cr.collection)
-	
 
 	if chime.ID.IsZero() {
-		chime.ID = bson.NewObjectID() 
+		chime.ID = bson.NewObjectID()
 	}
-	
+
 	_, err := collection.InsertOne(c, chime)
 	if err != nil {
 		return nil, err
@@ -57,14 +56,12 @@ func (cr *chimeRepository) CreateChime(c context.Context, chime *domain.Chime) (
 
 	pipeline := buildChimePipeline(bson.M{"_id": chime.ID})
 
-
 	cursor, err := collection.Aggregate(c, pipeline)
 	if err != nil {
 		return nil, err
 	}
 	defer cursor.Close(c)
 
-	
 	var result domain.ChimeWithAuthor
 	if cursor.Next(c) {
 		if err := cursor.Decode(&result); err != nil {
@@ -76,7 +73,6 @@ func (cr *chimeRepository) CreateChime(c context.Context, chime *domain.Chime) (
 
 	return &result, nil
 }
-
 
 func (cr *chimeRepository) Fetch(c context.Context) ([]domain.ChimeWithAuthor, error) {
 	collection := cr.database.Collection(cr.collection)
@@ -102,12 +98,12 @@ func (cr *chimeRepository) Fetch(c context.Context) ([]domain.ChimeWithAuthor, e
 func (cr *chimeRepository) GetById(c context.Context, id string) (*domain.ChimeWithAuthor, error) {
 	collection := cr.database.Collection(cr.collection)
 	var chime domain.ChimeWithAuthor
-	primitiveID,err := bson.ObjectIDFromHex(id)
+	primitiveID, err := bson.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 	pipeline := buildChimePipeline(bson.M{"_id": primitiveID})
-	cursor,err:= collection.Aggregate(c,pipeline)
+	cursor, err := collection.Aggregate(c, pipeline)
 	err = cursor.Decode(&chime)
 	if err != nil {
 		log.Println(err)
@@ -132,7 +128,7 @@ func (cr *chimeRepository) GetChimeFromUserId(c context.Context) ([]domain.Chime
 		log.Println(err)
 		return nil, err
 	}
-	var chimes []domain.ChimeWithAuthor	
+	var chimes []domain.ChimeWithAuthor
 	err = cursor.All(c, &chimes)
 	if err != nil {
 		return nil, err
@@ -143,9 +139,9 @@ func (cr *chimeRepository) GetChimeFromUserId(c context.Context) ([]domain.Chime
 	return chimes, err
 }
 
-func(cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.ChimeCreateOrUpdateRequest, id string)(*domain.ChimeWithAuthor, error) {
+func (cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.ChimeCreateOrUpdateRequest, id string) (*domain.ChimeWithAuthor, error) {
 	collection := cr.database.Collection(cr.collection)
-	userId,ok := c.Value("userId").(string)
+	userId, ok := c.Value("userId").(string)
 	if !ok || userId == "" {
 		return nil, fmt.Errorf("Invalid user id ")
 	}
@@ -157,8 +153,8 @@ func(cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.ChimeC
 	if err != nil {
 		return nil, err
 	}
-	filter := bson.D{{Key: "_id", Value: prmitiveChimeId},{Key:"author",Value:primitiveUserId}}
-	
+	filter := bson.D{{Key: "_id", Value: prmitiveChimeId}, {Key: "author", Value: primitiveUserId}}
+
 	update := bson.M{
 		"$set": bson.M{
 			"chime_title":   chimeData.ChimeTitle,
@@ -166,17 +162,17 @@ func(cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.ChimeC
 			"is_private":    chimeData.IsPrivate,
 		},
 	}
-	result,err := collection.UpdateOne(c, filter , update)	
+	result, err := collection.UpdateOne(c, filter, update)
 	if err != nil {
 		return nil, err
 	}
 	if result.MatchedCount == 0 {
 		return nil, fmt.Errorf("Chime not found")
 	}
-	
+
 	var updatedChime domain.ChimeWithAuthor
 	pipeline := buildChimePipeline(bson.M{"_id": prmitiveChimeId})
-	cursor,err := collection.Aggregate(c, pipeline)
+	cursor, err := collection.Aggregate(c, pipeline)
 	if err != nil {
 		return nil, err
 	}

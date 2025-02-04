@@ -20,8 +20,8 @@ type Chime struct {
 }
 
 type ChimeWithAuthor struct {
-    Chime 	`json:",inline" bson:",inline"` 
-    Author User  `json:"author"` 
+	Chime  `json:",inline" bson:",inline"`
+	Author User `json:"author"`
 }
 
 type ChimeCreateOrUpdateRequest struct {
@@ -31,13 +31,13 @@ type ChimeCreateOrUpdateRequest struct {
 }
 
 type ChimeResponse struct {
-	Message    string `json:"message"`
-	StatusCode int    `json:"statusCode"`
+	Message    string           `json:"message"`
+	StatusCode int              `json:"statusCode"`
 	Chime      *ChimeWithAuthor `json:"chime"`
 }
 type ChimeListResponse struct {
-	Message    string  `json:"message"`
-	StatusCode int     `json:"statusCode"`
+	Message    string            `json:"message"`
+	StatusCode int               `json:"statusCode"`
 	Chimes     []ChimeWithAuthor `json:"chimes"`
 }
 
@@ -46,7 +46,7 @@ type ChimeRepository interface {
 	Fetch(c context.Context) ([]ChimeWithAuthor, error)
 	GetById(c context.Context, id string) (*ChimeWithAuthor, error)
 	GetChimeFromUserId(c context.Context) ([]ChimeWithAuthor, error)
-	UpdateChime(c context.Context, chimeData ChimeCreateOrUpdateRequest, id string)(*ChimeWithAuthor, error)
+	UpdateChime(c context.Context, chimeData ChimeCreateOrUpdateRequest, id string) (*ChimeWithAuthor, error)
 }
 
 type ChimeUsecase interface {

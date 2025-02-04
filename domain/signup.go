@@ -10,8 +10,9 @@ type SignUpRequest struct {
 	Email    string `form:"email" binding:"required"`
 	Password string `form:"password" binding:"required"`
 }
-
 type SignUpResponse struct {
+	Message      string `json:"message"`
+	StatusCode   int    `json:"statusCode"`
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
 	User         User   `json:"user"`

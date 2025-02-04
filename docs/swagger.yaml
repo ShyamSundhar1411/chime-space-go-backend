@@ -83,8 +83,12 @@ definitions:
     properties:
       accessToken:
         type: string
+      message:
+        type: string
       refreshToken:
         type: string
+      statusCode:
+        type: integer
       user:
         $ref: '#/definitions/domain.User'
     type: object
@@ -107,8 +111,12 @@ definitions:
     properties:
       accessToken:
         type: string
+      message:
+        type: string
       refreshToken:
         type: string
+      statusCode:
+        type: integer
       user:
         $ref: '#/definitions/domain.User'
     type: object
@@ -117,8 +125,6 @@ definitions:
       email:
         type: string
       id:
-        type: string
-      password:
         type: string
       penName:
         type: string

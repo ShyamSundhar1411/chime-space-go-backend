@@ -97,6 +97,7 @@ func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
 	chimeResponse := domain.ChimeResponse{Message: "Chime created successfully", StatusCode: http.StatusCreated, Chime: chime}
 	return c.JSON(http.StatusCreated, chimeResponse)
 }
+
 // UpdateChime updates an existing Chime
 //
 //	@Summary		Update an existing Chime
@@ -119,7 +120,7 @@ func (ChimeController *ChimeController) UpdateChime(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
 	}
 	ctx := utils.ExtractContext(c)
-	chime,err = ChimeController.ChimeUsecase.UpdateChime(ctx,request,id)
+	chime, err = ChimeController.ChimeUsecase.UpdateChime(ctx, request, id)
 	if err != nil {
 		chimeResponse := domain.ChimeResponse{Message: err.Error(), StatusCode: http.StatusBadRequest, Chime: chime}
 		return c.JSON(http.StatusBadRequest, chimeResponse)
