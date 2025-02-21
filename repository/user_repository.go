@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/mongo"
@@ -48,4 +49,22 @@ func (ur *userRepository) GetByUsername(c context.Context, username string) (dom
 	var user domain.User
 	err := collection.FindOne(c, bson.D{{Key: "username", Value: username}}).Decode(&user)
 	return user, err
+}
+
+func (ur *userRepository) GetMyProfile(c context.Context)(*domain.User, error){
+	collection := ur.database.Collection(ur.collection)
+	userId, ok := c.Value("userId").(string)
+	if !ok {
+		return nil, fmt.Errorf("Unable to Fetch User Profile")
+	}
+	primitiveUserId, err := bson.ObjectIDFromHex(userId)
+	if err != nil {
+		return nil, err
+	}
+	var user domain.User
+	err = collection.FindOne(c,bson.D{{Key:"_id",Value: primitiveUserId}}).Decode(&user)
+	if err != nil {
+		return nil, err
+	}
+	return &user,nil
 }

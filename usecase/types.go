@@ -20,3 +20,8 @@ type loginUsecase struct {
 	userRepository domain.UserRepository
 	contextTimeout time.Duration
 }
+
+type userUseCase struct{
+	userRepository domain.UserRepository
+	contextTimeout time.Duration
+}

@@ -17,3 +17,8 @@ type SignUpController struct {
 	SignUpUsecase domain.SignUpUsecase
 	Env           *bootstrap.Env
 }
+
+type UserController struct{
+	UserUseCase domain.UserUsecase
+	Env *bootstrap.Env
+}
