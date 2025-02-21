@@ -282,6 +282,40 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/user/me/": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Retrives the profile details of the user based on access token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "User Me Endpoint",
+                "responses": {
+                    "201": {
+                        "description": "Returns Profile of the user",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ProfileResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Profile Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/domain.ErrorResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -424,6 +458,20 @@ const docTemplate = `{
                 },
                 "user": {
                     "$ref": "#/definitions/domain.User"
+                }
+            }
+        },
+        "domain.ProfileResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/domain.User"
+                },
+                "statusCode": {
+                    "type": "integer"
                 }
             }
         },
