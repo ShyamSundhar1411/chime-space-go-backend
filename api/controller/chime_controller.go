@@ -77,7 +77,7 @@ func (chimeController *ChimeController) FetchChimeFromUser(c echo.Context) error
 //	@Accept			json
 //	@Produce		json
 //	@Param			request	body		domain.ChimeCreateOrUpdateRequest	true	"Chime Create Request"
-//	@Success		201		{object}	domain.Chime
+//	@Success		201		{object}	domain.ChimeResponse
 //	@Failure		400		{object}	domain.ChimeResponse
 //	@Router			/chimes/ [post]
 //	@Security		BearerAuth

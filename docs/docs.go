@@ -182,7 +182,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/domain.Chime"
+                            "$ref": "#/definitions/domain.ChimeResponse"
                         }
                     },
                     "400": {
@@ -309,8 +309,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "204": {
+                        "description": "No Content",
                         "schema": {
                             "$ref": "#/definitions/domain.BaseResponse"
                         }
