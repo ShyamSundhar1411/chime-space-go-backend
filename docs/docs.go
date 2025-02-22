@@ -49,19 +49,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Invalid request",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.BaseResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized - Invalid credentials or user not found",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.BaseResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.BaseResponse"
                         }
                     }
                 }
@@ -101,19 +101,19 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request - Invalid or missing parameters in the request",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.BaseResponse"
                         }
                     },
                     "409": {
                         "description": "Conflict - User already exists",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.BaseResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error - Issue processing the request",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.BaseResponse"
                         }
                     }
                 }
@@ -311,7 +311,7 @@ const docTemplate = `{
                     "404": {
                         "description": "Profile Not Found",
                         "schema": {
-                            "$ref": "#/definitions/domain.ErrorResponse"
+                            "$ref": "#/definitions/domain.BaseResponse"
                         }
                     }
                 }
@@ -415,7 +415,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.ErrorResponse": {
+        "domain.BaseResponse": {
             "type": "object",
             "properties": {
                 "message": {

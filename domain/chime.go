@@ -40,13 +40,13 @@ type ChimeListResponse struct {
 	StatusCode int               `json:"statusCode"`
 	Chimes     []ChimeWithAuthor `json:"chimes"`
 }
-
 type ChimeRepository interface {
 	CreateChime(c context.Context, chime *Chime) (*ChimeWithAuthor, error)
 	Fetch(c context.Context) ([]ChimeWithAuthor, error)
 	GetById(c context.Context, id string) (*ChimeWithAuthor, error)
 	GetChimeFromUserId(c context.Context) ([]ChimeWithAuthor, error)
 	UpdateChime(c context.Context, chimeData ChimeCreateOrUpdateRequest, id string) (*ChimeWithAuthor, error)
+	DeleteChime(c context.Context, id string)(error)
 }
 
 type ChimeUsecase interface {
@@ -55,4 +55,5 @@ type ChimeUsecase interface {
 	GetById(c context.Context, id string) (*ChimeWithAuthor, error)
 	FetchChimeFromUser(c context.Context) ([]ChimeWithAuthor, error)
 	UpdateChime(c context.Context, chime ChimeCreateOrUpdateRequest, id string) (*ChimeWithAuthor, error)
+	DeleteChime(c context.Context, id string)(error)
 }

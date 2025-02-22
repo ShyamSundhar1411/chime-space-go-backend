@@ -86,7 +86,7 @@ func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
 	var request domain.ChimeCreateOrUpdateRequest
 	err := c.Bind(&request)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
+		return c.JSON(http.StatusBadRequest, domain.BaseResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
 	}
 	ctx := utils.ExtractContext(c)
 	chime, err = ChimeController.ChimeUsecase.CreateChime(ctx, request)
@@ -117,7 +117,7 @@ func (ChimeController *ChimeController) UpdateChime(c echo.Context) error {
 	id := c.Param("id")
 	err := c.Bind(&request)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
+		return c.JSON(http.StatusBadRequest, domain.BaseResponse{Message: err.Error(), StatusCode: http.StatusBadRequest})
 	}
 	ctx := utils.ExtractContext(c)
 	chime, err = ChimeController.ChimeUsecase.UpdateChime(ctx, request, id)
@@ -127,4 +127,25 @@ func (ChimeController *ChimeController) UpdateChime(c echo.Context) error {
 	}
 	chimeResponse := domain.ChimeResponse{Message: "Chime updated successfully", StatusCode: http.StatusOK, Chime: chime}
 	return c.JSON(http.StatusOK, chimeResponse)
+}
+// DeleteChime Deletes an existing Chime
+//
+//	@Summary		Delete an existing Chime
+//	@Description	Delete an existing chime by providing the chime ID
+//	@Tags			Chimes
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		string							true	"Chime ID"
+//	@Success		200		{object}	domain.BaseResponse
+//	@Failure		404		{object}	domain.BaseResponse
+//	@Router			/chimes/{id} [delete]
+//	@Security		BearerAuth
+func (ChimeController *ChimeController) DeleteChime(c echo.Context) error {
+	id := c.Param("id")
+	ctx := utils.ExtractContext(c)
+	err := ChimeController.ChimeUsecase.DeleteChime(ctx,id)
+	if err != nil{
+		return c.JSON(http.StatusNotFound, domain.BaseResponse{Message: "Unable to Process Request", StatusCode: http.StatusNotFound})
+	}
+	return c.JSON(http.StatusOK, domain.BaseResponse{Message: "Chime deleted successfully", StatusCode: http.StatusOK})
 }

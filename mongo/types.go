@@ -19,6 +19,7 @@ type Collection interface {
 	Find(context.Context, interface{}, ...options.Lister[options.FindOptions]) (Cursor, error)
 	UpdateOne(context.Context, interface{}, interface{}, ...options.Lister[options.UpdateOneOptions]) (*mongo.UpdateResult, error)
 	Aggregate(context.Context, interface{}) (Cursor, error)
+	DeleteOne(context.Context, interface{})(int64, error)
 }
 type SingleResult interface {
 	Decode(interface{}) error

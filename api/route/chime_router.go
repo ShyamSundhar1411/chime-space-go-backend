@@ -24,4 +24,5 @@ func NewChimeRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database
 	privateRouterGroup.GET("/chimes/user/", chimeController.FetchChimeFromUser)
 	privateRouterGroup.POST("/chimes/", chimeController.CreateChime)
 	privateRouterGroup.PUT("/chimes/:id", chimeController.UpdateChime)
+	privateRouterGroup.DELETE("/chimes/:id", chimeController.DeleteChime)
 }

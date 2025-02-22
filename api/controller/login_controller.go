@@ -16,31 +16,31 @@ import (
 // @Produce		json
 // @Param			loginRequest	body		domain.LoginRequest		true	"Login Request Payload"
 // @Success		200				{object}	domain.LoginResponse	"Login successful, returns access and refresh tokens"
-// @Failure		400				{object}	domain.ErrorResponse	"Invalid request"
-// @Failure		401				{object}	domain.ErrorResponse	"Unauthorized - Invalid credentials or user not found"
-// @Failure		500				{object}	domain.ErrorResponse	"Internal Server Error"
+// @Failure		400				{object}	domain.BaseResponse	"Invalid request"
+// @Failure		401				{object}	domain.BaseResponse	"Unauthorized - Invalid credentials or user not found"
+// @Failure		500				{object}	domain.BaseResponse	"Internal Server Error"
 // @Router			/auth/login/ [post]
 func (loginController *LoginController) Login(c echo.Context) error {
 	var request domain.LoginRequest
 	err := c.Bind(&request)
 	ctx := utils.ExtractContext(c)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Invalid request", StatusCode: http.StatusBadRequest})
+		return c.JSON(http.StatusBadRequest, domain.BaseResponse{Message: "Invalid request", StatusCode: http.StatusBadRequest})
 	}
 	user, err := loginController.LoginUsecase.GetUserByUserName(ctx, request.UserName)
 	if err != nil {
-		return c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "User not found with given credentials", StatusCode: http.StatusUnauthorized})
+		return c.JSON(http.StatusUnauthorized, domain.BaseResponse{Message: "User not found with given credentials", StatusCode: http.StatusUnauthorized})
 	}
 	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password)) != nil {
-		return c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "Invalid credentials", StatusCode: http.StatusUnauthorized})
+		return c.JSON(http.StatusUnauthorized, domain.BaseResponse{Message: "Invalid credentials", StatusCode: http.StatusUnauthorized})
 	}
 	accessToken, err := loginController.LoginUsecase.CreateAccessToken(&user, loginController.Env.AccessTokenSecretKey, loginController.Env.AccessTokenExpiryHour)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusInternalServerError})
+		return c.JSON(http.StatusInternalServerError, domain.BaseResponse{Message: err.Error(), StatusCode: http.StatusInternalServerError})
 	}
 	refreshToken, err := loginController.LoginUsecase.CreateRefreshToken(&user, loginController.Env.RefreshTokenSecretKey, loginController.Env.RefreshTokenExpiryHour)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error(), StatusCode: http.StatusInternalServerError})
+		return c.JSON(http.StatusInternalServerError, domain.BaseResponse{Message: err.Error(), StatusCode: http.StatusInternalServerError})
 
 	}
 

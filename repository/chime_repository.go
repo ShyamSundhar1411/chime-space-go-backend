@@ -179,3 +179,24 @@ func (cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.Chime
 	err = cursor.Decode(&updatedChime)
 	return &updatedChime, nil
 }
+
+func(cr *chimeRepository) DeleteChime(c context.Context,id string)(error){
+	collection := cr.database.Collection(cr.collection)
+	userId, ok := c.Value("userId").(string)
+	if !ok || userId == "" {
+		return fmt.Errorf("Invalid user id ")
+	}
+	primitiveUserId, err := bson.ObjectIDFromHex(userId)
+	if err != nil {
+		return err
+	}
+	primitiveChimeId, err := bson.ObjectIDFromHex(id)
+	if err != nil {
+		return err
+	}
+	_, err = collection.DeleteOne(c, bson.M{"_id": primitiveChimeId, "author": primitiveUserId})
+	if err != nil {
+		return err
+	}
+	return nil
+}

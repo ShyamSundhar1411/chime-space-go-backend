@@ -1,6 +1,6 @@
 package domain
 
-type ErrorResponse struct {
+type BaseResponse struct {
 	Message    string `json:"message"`
 	StatusCode int    `json:"status_code"`
 }

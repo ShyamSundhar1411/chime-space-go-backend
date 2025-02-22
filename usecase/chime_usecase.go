@@ -63,3 +63,9 @@ func (cu *chimeUsecase) UpdateChime(c context.Context, request domain.ChimeCreat
 	defer cancel()
 	return cu.chimeRepository.UpdateChime(ctx, request, id)
 }
+
+func(cu *chimeUsecase) DeleteChime(c context.Context, id string) error {
+	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
+	defer cancel()
+	return cu.chimeRepository.DeleteChime(ctx, id)
+}

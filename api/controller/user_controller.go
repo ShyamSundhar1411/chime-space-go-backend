@@ -13,14 +13,14 @@ import (
 // @Accept			json
 // @Produce		json
 // @Success		201				{object}	domain.ProfileResponse	"Returns Profile of the user"
-// @Failure		404				{object}	domain.ErrorResponse	"Profile Not Found"
+// @Failure		404				{object}	domain.BaseResponse	"Profile Not Found"
 // @Router			/user/me/	 [get]
 //	@Security		BearerAuth
 func (userController *UserController) GetMyProfile(c echo.Context) error {
 	ctx := utils.ExtractContext(c)
 	user, err := userController.UserUseCase.GetMyProfile(ctx)
 	if err != nil{
-		return c.JSON(http.StatusNotFound, domain.ErrorResponse{
+		return c.JSON(http.StatusNotFound, domain.BaseResponse{
 			Message: "Profile Not Found",
 			StatusCode: 404,
 
@@ -31,5 +31,4 @@ func (userController *UserController) GetMyProfile(c echo.Context) error {
 		StatusCode: 200,
 		Profile: user,
 	})
-
 }
