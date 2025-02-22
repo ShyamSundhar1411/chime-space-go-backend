@@ -1,4 +1,11 @@
 definitions:
+  domain.BaseResponse:
+    properties:
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
   domain.Chime:
     properties:
       author:
@@ -61,13 +68,6 @@ definitions:
         type: string
       isPrivate:
         type: boolean
-    type: object
-  domain.BaseResponse:
-    properties:
-      message:
-        type: string
-      status_code:
-        type: integer
     type: object
   domain.LoginRequest:
     properties:
@@ -262,6 +262,32 @@ paths:
       tags:
       - Chimes
   /chimes/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing chime by providing the chime ID
+      parameters:
+      - description: Chime ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.BaseResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/domain.BaseResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete an existing Chime
+      tags:
+      - Chimes
     put:
       consumes:
       - application/json

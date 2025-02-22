@@ -22,13 +22,13 @@ func (userController *UserController) GetMyProfile(c echo.Context) error {
 	if err != nil{
 		return c.JSON(http.StatusNotFound, domain.BaseResponse{
 			Message: "Profile Not Found",
-			StatusCode: 404,
+			StatusCode: http.StatusNotFound,
 
 		})
 	}
 	return c.JSON(http.StatusOK, domain.ProfileResponse{
 		Message: "Profile Found",
-		StatusCode: 200,
+		StatusCode: http.StatusOK,
 		Profile: user,
 	})
 }

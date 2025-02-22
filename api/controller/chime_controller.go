@@ -136,7 +136,7 @@ func (ChimeController *ChimeController) UpdateChime(c echo.Context) error {
 //	@Accept			json
 //	@Produce		json
 //	@Param			id		path		string							true	"Chime ID"
-//	@Success		200		{object}	domain.BaseResponse
+//	@Success		204		{object}	domain.BaseResponse
 //	@Failure		404		{object}	domain.BaseResponse
 //	@Router			/chimes/{id} [delete]
 //	@Security		BearerAuth
@@ -147,5 +147,5 @@ func (ChimeController *ChimeController) DeleteChime(c echo.Context) error {
 	if err != nil{
 		return c.JSON(http.StatusNotFound, domain.BaseResponse{Message: "Unable to Process Request", StatusCode: http.StatusNotFound})
 	}
-	return c.JSON(http.StatusOK, domain.BaseResponse{Message: "Chime deleted successfully", StatusCode: http.StatusOK})
+	return c.JSON(http.StatusNoContent, domain.BaseResponse{Message: "Chime deleted successfully", StatusCode: http.StatusNoContent})
 }

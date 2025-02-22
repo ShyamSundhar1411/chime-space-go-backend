@@ -281,6 +281,47 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete an existing chime by providing the chime ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chimes"
+                ],
+                "summary": "Delete an existing Chime",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Chime ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.BaseResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/domain.BaseResponse"
+                        }
+                    }
+                }
             }
         },
         "/user/me/": {
@@ -319,6 +360,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "domain.BaseResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "integer"
+                }
+            }
+        },
         "domain.Chime": {
             "type": "object",
             "properties": {
@@ -412,17 +464,6 @@ const docTemplate = `{
                 },
                 "isPrivate": {
                     "type": "boolean"
-                }
-            }
-        },
-        "domain.BaseResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "status_code": {
-                    "type": "integer"
                 }
             }
         },
