@@ -19,6 +19,7 @@ func buildChimePipeline(matchFilter bson.M) []bson.M {
 			"foreignField": "_id",
 			"as":           "author",
 		}},
+		{"$sort": bson.M{"created_at": -1}},
 		{"$unwind": "$author"},
 		{
 			"$project": bson.M{
