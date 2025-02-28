@@ -21,4 +21,5 @@ func Setup(env *bootstrap.Env, timeout time.Duration, db mongo.Database, echoEng
 	privateRouter.Use(echojwt.WithConfig(config))
 	NewChimeRouter(env, timeout, db, publicRouter, privateRouter)
 	NewUserRouter(env, timeout, db, publicRouter, privateRouter)
+	NewTokenRouter(env,timeout,publicRouter)
 }

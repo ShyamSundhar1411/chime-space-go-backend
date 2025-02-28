@@ -9,10 +9,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewTokenRouter(env *bootstrap.Env,timeout time.Duration,routerGroup echo.Group){
+func NewTokenRouter(env *bootstrap.Env,timeout time.Duration,routerGroup *echo.Group){
 	tokenController := &controller.TokenController{
 		TokenUseCase: usecase.NewTokenUseCase(timeout),
 		Env: env,
 	}
-	routerGroup.POST("/token", tokenController.Refresh)
+	routerGroup.POST("/token/refresh/", tokenController.Refresh)
 }
