@@ -22,3 +22,8 @@ type UserController struct{
 	UserUseCase domain.UserUsecase
 	Env *bootstrap.Env
 }
+
+type TokenController struct{
+	TokenUseCase domain.TokenUsecase
+	Env *bootstrap.Env
+}
