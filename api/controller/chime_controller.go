@@ -45,7 +45,7 @@ func (chimeController *ChimeController) FetchAllChimes(c echo.Context) error {
 //	@Tags			Chimes
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{array}		domain.Chime
+//	@Success		200	{array}		models.Chime
 //	@Failure		500	{object}	domain.ChimeListResponse
 //	@Router			/chimes/user/ [get]
 //	@Security		BearerAuth
@@ -107,7 +107,7 @@ func (ChimeController *ChimeController) CreateChime(c echo.Context) error {
 //	@Produce		json
 //	@Param			id		path		string							true	"Chime ID"
 //	@Param			request	body		domain.ChimeCreateOrUpdateRequest	true	"Chime Update Request"
-//	@Success		200		{object}	domain.Chime
+//	@Success		200		{object}	models.Chime
 //	@Failure		400		{object}	domain.ChimeResponse
 //	@Router			/chimes/{id} [put]
 //	@Security		BearerAuth

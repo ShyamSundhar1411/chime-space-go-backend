@@ -218,7 +218,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/domain.Chime"
+                                "$ref": "#/definitions/models.Chime"
                             }
                         }
                     },
@@ -271,7 +271,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/domain.Chime"
+                            "$ref": "#/definitions/models.Chime"
                         }
                     },
                     "400": {
@@ -324,6 +324,40 @@ const docTemplate = `{
                 }
             }
         },
+        "/token/refresh/": {
+            "post": {
+                "description": "Allows users to refresh their access token using a valid refresh token.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Generate a new access token using a refresh token",
+                "parameters": [
+                    {
+                        "description": "Refresh Token Request Payload",
+                        "name": "refreshRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.TokenRefreshRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a new access token",
+                        "schema": {
+                            "$ref": "#/definitions/domain.TokenRefreshResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/user/me/": {
             "get": {
                 "security": [
@@ -368,29 +402,6 @@ const docTemplate = `{
                 },
                 "status_code": {
                     "type": "integer"
-                }
-            }
-        },
-        "domain.Chime": {
-            "type": "object",
-            "properties": {
-                "author": {
-                    "type": "string"
-                },
-                "chimeContent": {
-                    "type": "string"
-                },
-                "chimeTitle": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isPrivate": {
-                    "type": "boolean"
                 }
             }
         },
@@ -448,7 +459,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "author": {
-                    "$ref": "#/definitions/domain.User"
+                    "$ref": "#/definitions/models.User"
                 },
                 "chimeContent": {
                     "type": "string"
@@ -498,7 +509,7 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "user": {
-                    "$ref": "#/definitions/domain.User"
+                    "$ref": "#/definitions/models.User"
                 }
             }
         },
@@ -509,7 +520,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "profile": {
-                    "$ref": "#/definitions/domain.User"
+                    "$ref": "#/definitions/models.User"
                 },
                 "statusCode": {
                     "type": "integer"
@@ -554,11 +565,50 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "user": {
-                    "$ref": "#/definitions/domain.User"
+                    "$ref": "#/definitions/models.User"
                 }
             }
         },
-        "domain.User": {
+        "domain.TokenRefreshRequest": {
+            "type": "object",
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "domain.TokenRefreshResponse": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Chime": {
+            "type": "object",
+            "properties": {
+                "author": {
+                    "type": "string"
+                },
+                "chimeContent": {
+                    "type": "string"
+                },
+                "chimeTitle": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "models.User": {
             "type": "object",
             "properties": {
                 "email": {

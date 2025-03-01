@@ -2,7 +2,7 @@ package domain
 
 import "context"
 
-type TokenRefeshRequest struct {
+type TokenRefreshRequest struct {
 	RefreshToken string `json:"refresh_token"`
 }
 

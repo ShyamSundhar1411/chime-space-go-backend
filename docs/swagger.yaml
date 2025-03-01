@@ -6,21 +6,6 @@ definitions:
       status_code:
         type: integer
     type: object
-  domain.Chime:
-    properties:
-      author:
-        type: string
-      chimeContent:
-        type: string
-      chimeTitle:
-        type: string
-      createdAt:
-        type: string
-      id:
-        type: string
-      isPrivate:
-        type: boolean
-    type: object
   domain.ChimeCreateOrUpdateRequest:
     properties:
       chimeContent:
@@ -57,7 +42,7 @@ definitions:
   domain.ChimeWithAuthor:
     properties:
       author:
-        $ref: '#/definitions/domain.User'
+        $ref: '#/definitions/models.User'
       chimeContent:
         type: string
       chimeTitle:
@@ -90,14 +75,14 @@ definitions:
       statusCode:
         type: integer
       user:
-        $ref: '#/definitions/domain.User'
+        $ref: '#/definitions/models.User'
     type: object
   domain.ProfileResponse:
     properties:
       message:
         type: string
       profile:
-        $ref: '#/definitions/domain.User'
+        $ref: '#/definitions/models.User'
       statusCode:
         type: integer
     type: object
@@ -127,9 +112,34 @@ definitions:
       statusCode:
         type: integer
       user:
-        $ref: '#/definitions/domain.User'
+        $ref: '#/definitions/models.User'
     type: object
-  domain.User:
+  domain.TokenRefreshRequest:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  domain.TokenRefreshResponse:
+    properties:
+      access_token:
+        type: string
+    type: object
+  models.Chime:
+    properties:
+      author:
+        type: string
+      chimeContent:
+        type: string
+      chimeTitle:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      isPrivate:
+        type: boolean
+    type: object
+  models.User:
     properties:
       email:
         type: string
@@ -311,7 +321,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/domain.Chime'
+            $ref: '#/definitions/models.Chime'
         "400":
           description: Bad Request
           schema:
@@ -333,7 +343,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/domain.Chime'
+              $ref: '#/definitions/models.Chime'
             type: array
         "500":
           description: Internal Server Error
@@ -344,6 +354,29 @@ paths:
       summary: Get all Chimes of logged in user
       tags:
       - Chimes
+  /token/refresh/:
+    post:
+      consumes:
+      - application/json
+      description: Allows users to refresh their access token using a valid refresh
+        token.
+      parameters:
+      - description: Refresh Token Request Payload
+        in: body
+        name: refreshRequest
+        required: true
+        schema:
+          $ref: '#/definitions/domain.TokenRefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns a new access token
+          schema:
+            $ref: '#/definitions/domain.TokenRefreshResponse'
+      summary: Generate a new access token using a refresh token
+      tags:
+      - Token
   /user/me/:
     get:
       consumes:
