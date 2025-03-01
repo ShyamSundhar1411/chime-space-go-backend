@@ -27,5 +27,6 @@ type userUseCase struct{
 }
 
 type tokenUseCase struct{
+	userRepository domain.UserRepository
 	contextTimeout time.Duration
 }

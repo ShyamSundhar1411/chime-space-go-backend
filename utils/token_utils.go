@@ -40,3 +40,17 @@ func CreateRefreshToken(user *models.User, secret string, expiry int) (refreshTo
 	}
 	return t, err
 }
+
+func VerifyRefreshToken(tokenString string, secret string) (*domain.CustomJWTRefreshClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &domain.CustomJWTRefreshClaims{}, func(token *jwt.Token) (any, error) {
+		return []byte(secret), nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	claims, ok := token.Claims.(*domain.CustomJWTRefreshClaims)
+	if !ok {
+		return nil, err
+	}
+	return claims, nil
+}

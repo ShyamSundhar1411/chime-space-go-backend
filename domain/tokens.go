@@ -12,4 +12,5 @@ type TokenRefreshResponse struct {
 
 type TokenUsecase interface {
 	RefreshToken(c context.Context, refreshToken string) (string, error)
+	ValidateRefreshToken(c context.Context, refreshToken string, secret string) (bool, error)
 }
