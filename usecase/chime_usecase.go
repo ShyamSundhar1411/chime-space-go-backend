@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
@@ -19,7 +20,7 @@ func NewChimeUseCase(chimeRepository domain.ChimeRepository, timeout time.Durati
 func (cu *chimeUsecase) CreateChime(c context.Context, request domain.ChimeCreateOrUpdateRequest) (*domain.ChimeWithAuthor, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
-	var chime domain.Chime
+	var chime models.Chime
 	userId, ok := c.Value("userId").(string)
 	if !ok {
 		return nil, fmt.Errorf("user id not found")
@@ -28,7 +29,7 @@ func (cu *chimeUsecase) CreateChime(c context.Context, request domain.ChimeCreat
 	if err != nil {
 		return nil, err
 	}
-	chime = domain.Chime{
+	chime = models.Chime{
 		ID:           bson.NewObjectID(),
 		ChimeTitle:   request.ChimeTitle,
 		ChimeContent: request.ChimeContent,

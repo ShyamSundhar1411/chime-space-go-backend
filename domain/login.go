@@ -2,6 +2,8 @@ package domain
 
 import (
 	"context"
+
+	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 )
 
 type LoginRequest struct {
@@ -14,10 +16,10 @@ type LoginResponse struct {
 	StatusCode   int    `json:"statusCode"`
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
-	User         User   `json:"user"`
+	User         models.User   `json:"user"`
 }
 type LoginUsecase interface {
-	GetUserByUserName(c context.Context, userName string) (User, error)
-	CreateAccessToken(user *User, secret string, expiry int) (accessToken string, err error)
-	CreateRefreshToken(user *User, secret string, expiry int) (refreshToken string, err error)
+	GetUserByUserName(c context.Context, userName string) (models.User, error)
+	CreateAccessToken(user *models.User, secret string, expiry int) (accessToken string, err error)
+	CreateRefreshToken(user *models.User, secret string, expiry int) (refreshToken string, err error)
 }

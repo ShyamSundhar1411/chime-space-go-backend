@@ -3,25 +3,18 @@ package domain
 import (
 	"context"
 
-	"go.mongodb.org/mongo-driver/v2/bson"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 )
 
 const (
 	CollectionChime = "chimes"
 )
 
-type Chime struct {
-	ID           bson.ObjectID `bson:"_id" json:"id"`
-	ChimeTitle   string        `bson:"chime_title" json:"chimeTitle"`
-	ChimeContent string        `bson:"chime_content" json:"chimeContent"`
-	CreatedAt    bson.DateTime `bson:"created_at" json:"createdAt" swaggertype:"primitive,string"`
-	Author       bson.ObjectID `bson:"author" json:"author"`
-	IsPrivate    bool          `bson:"is_private" json:"isPrivate"`
-}
+
 
 type ChimeWithAuthor struct {
-	Chime  `json:",inline" bson:",inline"`
-	Author User `json:"author"`
+	models.Chime  `json:",inline" bson:",inline"`
+	Author models.User `json:"author"`
 }
 
 type ChimeCreateOrUpdateRequest struct {
@@ -41,7 +34,7 @@ type ChimeListResponse struct {
 	Chimes     []ChimeWithAuthor `json:"chimes"`
 }
 type ChimeRepository interface {
-	CreateChime(c context.Context, chime *Chime) (*ChimeWithAuthor, error)
+	CreateChime(c context.Context, chime *models.Chime) (*ChimeWithAuthor, error)
 	Fetch(c context.Context) ([]ChimeWithAuthor, error)
 	GetById(c context.Context, id string) (*ChimeWithAuthor, error)
 	GetChimeFromUserId(c context.Context) ([]ChimeWithAuthor, error)

@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/utils"
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/v2/bson"
@@ -40,7 +41,7 @@ func (signUpController *SignUpController) SignUp(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, domain.BaseResponse{Message: "Internal Server Error", StatusCode: http.StatusInternalServerError})
 	}
 	request.Password = string(encryptedPassword)
-	user := domain.User{
+	user := models.User{
 		ID:       bson.NewObjectID(),
 		UserName: request.UserName,
 		Email:    request.Email,

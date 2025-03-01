@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/mongo"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
@@ -43,7 +44,7 @@ func NewChimeRepository(db mongo.Database, collection string) domain.ChimeReposi
 	}
 }
 
-func (cr *chimeRepository) CreateChime(c context.Context, chime *domain.Chime) (*domain.ChimeWithAuthor, error) {
+func (cr *chimeRepository) CreateChime(c context.Context, chime *models.Chime) (*domain.ChimeWithAuthor, error) {
 	collection := cr.database.Collection(cr.collection)
 
 	if chime.ID.IsZero() {
