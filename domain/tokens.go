@@ -1,6 +1,10 @@
 package domain
 
-import "context"
+import (
+	"context"
+
+	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
+)
 
 type TokenRefreshRequest struct {
 	RefreshToken string `json:"refresh_token"`
@@ -11,6 +15,6 @@ type TokenRefreshResponse struct {
 }
 
 type TokenUsecase interface {
-	RefreshToken(c context.Context, refreshToken string) (string, error)
-	ValidateRefreshToken(c context.Context, refreshToken string, secret string) (bool, error)
+	GenerateAccessTokenFromRefreshToken(c context.Context, user *models.User, secret string, expiry int) (string, error)
+	ValidateRefreshToken(c context.Context, refreshToken string, secret string) (*models.User, error)
 }

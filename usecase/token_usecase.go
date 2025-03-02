@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/utils"
 )
 
@@ -15,18 +16,22 @@ func NewTokenUseCase(userRepository domain.UserRepository,timeout time.Duration)
 	}
 }
 
-func(tokenUseCase *tokenUseCase) RefreshToken(c context.Context, refreshToken string)(string,error){
-	return "",nil
+func(tokenUseCase *tokenUseCase) GenerateAccessTokenFromRefreshToken(c context.Context, user *models.User, secret string, expiry int)(string,error){
+	t, err := utils.CreateAccessToken(user, secret, expiry)
+	if err != nil{
+		return "", err
+	}
+	return t,nil	
 }
 
-func(tokenUseCase *tokenUseCase)ValidateRefreshToken(c context.Context, refreshToken string, secret string)(bool, error){
+func(tokenUseCase *tokenUseCase)ValidateRefreshToken(c context.Context, refreshToken string, secret string)(*models.User, error){
 	claims, err := utils.VerifyRefreshToken(refreshToken, secret)
 	if err != nil{
-		return false, err
+		return nil, err
 	}
-	_, err = tokenUseCase.userRepository.GetById(c, claims.ID)
+	user, err := tokenUseCase.userRepository.GetById(c, claims.ID)
 	if err != nil{
-		return false, err
+		return nil, err
 	}
-	return true,nil
+	return user,nil
 }

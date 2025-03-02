@@ -39,11 +39,15 @@ func (ur *userRepository) Fetch(c context.Context) ([]models.User, error) {
 	return users, err
 }
 
-func (ur *userRepository) GetById(c context.Context, id string) (models.User, error) {
+func (ur *userRepository) GetById(c context.Context, id string) (*models.User, error) {
 	collection := ur.database.Collection(ur.collection)
 	var user models.User
-	err := collection.FindOne(c, bson.D{{Key: "_id", Value: id}}).Decode(&user)
-	return user, err
+	primitiveUserId, err := bson.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	err = collection.FindOne(c, bson.D{{Key: "_id", Value: primitiveUserId}}).Decode(&user)
+	return &user, err
 }
 func (ur *userRepository) GetByUsername(c context.Context, username string) (models.User, error) {
 	collection := ur.database.Collection(ur.collection)

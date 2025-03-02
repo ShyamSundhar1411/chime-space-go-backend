@@ -25,7 +25,7 @@ type ProfileResponse struct {
 type UserRepository interface {
 	Create(c context.Context, user *models.User) error
 	Fetch(c context.Context) ([]models.User, error)
-	GetById(c context.Context, id string) (models.User, error)
+	GetById(c context.Context, id string) (*models.User, error)
 	GetByUsername(c context.Context, username string) (models.User, error)
 	GetMyProfile(c context.Context)(*models.User,error)
 }

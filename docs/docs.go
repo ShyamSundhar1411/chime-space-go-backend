@@ -354,6 +354,18 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/domain.TokenRefreshResponse"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Payload",
+                        "schema": {
+                            "$ref": "#/definitions/domain.BaseResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/domain.BaseResponse"
+                        }
                     }
                 }
             }
