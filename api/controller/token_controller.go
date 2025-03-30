@@ -55,6 +55,8 @@ func (tokenController *TokenController) Refresh(c echo.Context) error {
 	tokenResponse := domain.TokenRefreshResponse{
 		AccessToken: accessToken,
 		RefreshToken: refreshToken,
+		StatusCode: http.StatusCreated,
+		Message: "Token refreshed successfully",
 	}
 	return c.JSON(
 		http.StatusOK,

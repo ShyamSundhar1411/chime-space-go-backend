@@ -7,12 +7,14 @@ import (
 )
 
 type TokenRefreshRequest struct {
-	RefreshToken string `json:"refresh_token"`
+	RefreshToken string `json:"refreshToken"`
 }
 
 type TokenRefreshResponse struct {
-	AccessToken string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
+	AccessToken string `json:"accessToken"`
+	RefreshToken string `json:"refreshToken"`
+	StatusCode int `json:"statusCode"`
+	Message		string `json:"message"`
 }
 
 type TokenUsecase interface {
