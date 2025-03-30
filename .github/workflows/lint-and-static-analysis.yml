@@ -15,6 +15,8 @@ jobs:
   lint:
     name: Lint and Static Analysis
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
 
     steps:
       - name: Checkout Code
@@ -23,7 +25,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.22' 
 
 
       - name: Install GolangCI-Lint
@@ -31,11 +33,14 @@ jobs:
           go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
           golangci-lint version
 
-
+   
       - name: Run Linter
         run: |
-            golangci-lint run ./... --timeout=5m
+          set -e  # Exit on error
+          golangci-lint run ./... --timeout=5m
 
 
       - name: Run Go Vet (Static Analysis)
-        run: go vet ./... || echo "Go Vet issues detected."
+        run: |
+          set -e  # Exit on error
+          go vet ./...
