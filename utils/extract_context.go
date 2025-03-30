@@ -7,6 +7,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+type contextKey string
+
+const UserIDKey contextKey = "userId"
 func ExtractContext(c echo.Context) context.Context {
 	ctx := c.Request().Context()
 	user := c.Get("user")
@@ -26,6 +29,6 @@ func ExtractContext(c echo.Context) context.Context {
 	if !ok || userId == "" {
 		return ctx
 	}
-	ctx = context.WithValue(ctx, "userId", userId)
+	ctx = context.WithValue(ctx, UserIDKey, userId)
 	return ctx
 }

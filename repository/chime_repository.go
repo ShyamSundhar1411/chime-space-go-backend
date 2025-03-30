@@ -106,6 +106,9 @@ func (cr *chimeRepository) GetById(c context.Context, id string) (*domain.ChimeW
 	}
 	pipeline := buildChimePipeline(bson.M{"_id": primitiveID})
 	cursor, err := collection.Aggregate(c, pipeline)
+	if err != nil {
+		return nil,err
+	}
 	err = cursor.Decode(&chime)
 	if err != nil {
 		log.Println(err)
@@ -179,6 +182,9 @@ func (cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.Chime
 		return nil, err
 	}
 	err = cursor.Decode(&updatedChime)
+	if err != nil {
+		return nil, err
+	}
 	return &updatedChime, nil
 }
 
