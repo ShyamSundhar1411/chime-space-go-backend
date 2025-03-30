@@ -16,7 +16,7 @@ func NewTokenUseCase(userRepository domain.UserRepository,timeout time.Duration)
 	}
 }
 
-func(tokenUseCase *tokenUseCase) GenerateAccessTokenFromRefreshToken(c context.Context, user *models.User, secret string, expiry int)(string,error){
+func(tokenUseCase *tokenUseCase) GenerateAccessToken(c context.Context, user *models.User, secret string, expiry int)(string,error){
 	t, err := utils.CreateAccessToken(user, secret, expiry)
 	if err != nil{
 		return "", err
@@ -24,6 +24,13 @@ func(tokenUseCase *tokenUseCase) GenerateAccessTokenFromRefreshToken(c context.C
 	return t,nil	
 }
 
+func(tokenUseCase *tokenUseCase) GenerateRefreshToken(c context.Context, user *models.User, secret string, expiry int)(string, error){
+	t, err := utils.CreateRefreshToken(user, secret, expiry)
+	if err != nil{
+		return "", err
+	}
+	return t,nil
+}
 func(tokenUseCase *tokenUseCase)ValidateRefreshToken(c context.Context, refreshToken string, secret string)(*models.User, error){
 	claims, err := utils.VerifyRefreshToken(refreshToken, secret)
 	if err != nil{

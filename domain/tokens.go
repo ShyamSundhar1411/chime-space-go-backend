@@ -12,9 +12,11 @@ type TokenRefreshRequest struct {
 
 type TokenRefreshResponse struct {
 	AccessToken string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
 type TokenUsecase interface {
-	GenerateAccessTokenFromRefreshToken(c context.Context, user *models.User, secret string, expiry int) (string, error)
+	GenerateAccessToken(c context.Context, user *models.User, secret string, expiry int) (string, error)
+	GenerateRefreshToken(c context.Context, user *models.User, secret string, expiry int)(string, error)
 	ValidateRefreshToken(c context.Context, refreshToken string, secret string) (*models.User, error)
 }
