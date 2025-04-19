@@ -381,7 +381,7 @@
                     "201": {
                         "description": "Returns Profile of the user",
                         "schema": {
-                            "$ref": "#/definitions/domain.ProfileResponse"
+                            "$ref": "#/definitions/domain.UserProfileResponse"
                         }
                     },
                     "404": {
@@ -514,7 +514,7 @@
                 }
             }
         },
-        "domain.ProfileResponse": {
+        "domain.UserProfileResponse": {
             "type": "object",
             "properties": {
                 "message": {

@@ -12,7 +12,7 @@ import (
 // @Tags			User
 // @Accept			json
 // @Produce		json
-// @Success		201				{object}	domain.ProfileResponse	"Returns Profile of the user"
+// @Success		201				{object}	domain.UserProfileResponse	"Returns Profile of the user"
 // @Failure		404				{object}	domain.BaseResponse	"Profile Not Found"
 // @Router			/user/me/	 [get]
 //	@Security		BearerAuth
@@ -26,7 +26,7 @@ func (userController *UserController) GetMyProfile(c echo.Context) error {
 
 		})
 	}
-	return c.JSON(http.StatusOK, domain.ProfileResponse{
+	return c.JSON(http.StatusOK, domain.UserProfileResponse{
 		Message: "Profile Found",
 		StatusCode: http.StatusOK,
 		Profile: user,

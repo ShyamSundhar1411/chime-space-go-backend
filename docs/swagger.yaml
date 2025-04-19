@@ -77,7 +77,7 @@ definitions:
       user:
         $ref: '#/definitions/models.User'
     type: object
-  domain.ProfileResponse:
+  domain.UserProfileResponse:
     properties:
       message:
         type: string
@@ -402,7 +402,7 @@ paths:
         "201":
           description: Returns Profile of the user
           schema:
-            $ref: '#/definitions/domain.ProfileResponse'
+            $ref: '#/definitions/domain.UserProfileResponse'
         "404":
           description: Profile Not Found
           schema:

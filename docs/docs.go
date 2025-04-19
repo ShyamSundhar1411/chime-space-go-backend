@@ -392,7 +392,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Returns Profile of the user",
                         "schema": {
-                            "$ref": "#/definitions/domain.ProfileResponse"
+                            "$ref": "#/definitions/domain.UserProfileResponse"
                         }
                     },
                     "404": {
@@ -525,7 +525,7 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.ProfileResponse": {
+        "domain.UserProfileResponse": {
             "type": "object",
             "properties": {
                 "message": {
