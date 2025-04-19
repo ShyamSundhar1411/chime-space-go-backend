@@ -525,20 +525,6 @@ const docTemplate = `{
                 }
             }
         },
-        "domain.UserProfileResponse": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "type": "string"
-                },
-                "profile": {
-                    "$ref": "#/definitions/models.User"
-                },
-                "statusCode": {
-                    "type": "integer"
-                }
-            }
-        },
         "domain.SignUpRequest": {
             "type": "object",
             "required": [
@@ -600,6 +586,20 @@ const docTemplate = `{
                 },
                 "refreshToken": {
                     "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer"
+                }
+            }
+        },
+        "domain.UserProfileResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "profile": {
+                    "$ref": "#/definitions/models.User"
                 },
                 "statusCode": {
                     "type": "integer"

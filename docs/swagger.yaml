@@ -77,15 +77,6 @@ definitions:
       user:
         $ref: '#/definitions/models.User'
     type: object
-  domain.UserProfileResponse:
-    properties:
-      message:
-        type: string
-      profile:
-        $ref: '#/definitions/models.User'
-      statusCode:
-        type: integer
-    type: object
   domain.SignUpRequest:
     properties:
       email:
@@ -127,6 +118,15 @@ definitions:
         type: string
       refreshToken:
         type: string
+      statusCode:
+        type: integer
+    type: object
+  domain.UserProfileResponse:
+    properties:
+      message:
+        type: string
+      profile:
+        $ref: '#/definitions/models.User'
       statusCode:
         type: integer
     type: object
