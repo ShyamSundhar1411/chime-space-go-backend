@@ -412,7 +412,7 @@ const docTemplate = `{
                 "message": {
                     "type": "string"
                 },
-                "status_code": {
+                "statusCode": {
                     "type": "integer"
                 }
             }
@@ -584,7 +584,7 @@ const docTemplate = `{
         "domain.TokenRefreshRequest": {
             "type": "object",
             "properties": {
-                "refresh_token": {
+                "refreshToken": {
                     "type": "string"
                 }
             }
@@ -592,11 +592,17 @@ const docTemplate = `{
         "domain.TokenRefreshResponse": {
             "type": "object",
             "properties": {
-                "access_token": {
+                "accessToken": {
                     "type": "string"
                 },
-                "refresh_token": {
+                "message": {
                     "type": "string"
+                },
+                "refreshToken": {
+                    "type": "string"
+                },
+                "statusCode": {
+                    "type": "integer"
                 }
             }
         },

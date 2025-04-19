@@ -3,7 +3,7 @@ definitions:
     properties:
       message:
         type: string
-      status_code:
+      statusCode:
         type: integer
     type: object
   domain.ChimeCreateOrUpdateRequest:
@@ -116,15 +116,19 @@ definitions:
     type: object
   domain.TokenRefreshRequest:
     properties:
-      refresh_token:
+      refreshToken:
         type: string
     type: object
   domain.TokenRefreshResponse:
     properties:
-      access_token:
+      accessToken:
         type: string
-      refresh_token:
+      message:
         type: string
+      refreshToken:
+        type: string
+      statusCode:
+        type: integer
     type: object
   models.Chime:
     properties:
