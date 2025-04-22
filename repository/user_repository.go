@@ -7,6 +7,7 @@ import (
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/mongo"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/utils"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
@@ -56,9 +57,9 @@ func (ur *userRepository) GetByUsername(c context.Context, username string) (mod
 	return user, err
 }
 
-func (ur *userRepository) GetMyProfile(c context.Context)(*models.User, error){
+func (ur *userRepository) GetMyProfile(c context.Context) (*models.User, error) {
 	collection := ur.database.Collection(ur.collection)
-	userId, ok := c.Value("userId").(string)
+	userId, ok := c.Value(utils.UserIDKey).(string)
 	if !ok {
 		return nil, fmt.Errorf("Unable to Fetch User Profile")
 	}
@@ -67,9 +68,9 @@ func (ur *userRepository) GetMyProfile(c context.Context)(*models.User, error){
 		return nil, err
 	}
 	var user models.User
-	err = collection.FindOne(c,bson.D{{Key:"_id",Value: primitiveUserId}}).Decode(&user)
+	err = collection.FindOne(c, bson.D{{Key: "_id", Value: primitiveUserId}}).Decode(&user)
 	if err != nil {
 		return nil, err
 	}
-	return &user,nil
+	return &user, nil
 }

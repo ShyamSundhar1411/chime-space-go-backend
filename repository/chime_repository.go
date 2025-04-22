@@ -8,6 +8,7 @@ import (
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 	"github.com/ShyamSundhar1411/chime-space-go-backend/mongo"
+	"github.com/ShyamSundhar1411/chime-space-go-backend/utils"
 	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
@@ -107,7 +108,7 @@ func (cr *chimeRepository) GetById(c context.Context, id string) (*domain.ChimeW
 	pipeline := buildChimePipeline(bson.M{"_id": primitiveID})
 	cursor, err := collection.Aggregate(c, pipeline)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	err = cursor.Decode(&chime)
 	if err != nil {
@@ -119,9 +120,9 @@ func (cr *chimeRepository) GetById(c context.Context, id string) (*domain.ChimeW
 
 func (cr *chimeRepository) GetChimeFromUserId(c context.Context) ([]domain.ChimeWithAuthor, error) {
 	collection := cr.database.Collection(cr.collection)
-	userId, ok := c.Value("userId").(string)
+	userId, ok := c.Value(utils.UserIDKey).(string)
 	if !ok || userId == "" {
-		return nil, fmt.Errorf("Invalid user id ")
+		return nil, fmt.Errorf("Invalid user id")
 	}
 	primitiveUserId, err := bson.ObjectIDFromHex(userId)
 	if err != nil {
@@ -146,7 +147,7 @@ func (cr *chimeRepository) GetChimeFromUserId(c context.Context) ([]domain.Chime
 
 func (cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.ChimeCreateOrUpdateRequest, id string) (*domain.ChimeWithAuthor, error) {
 	collection := cr.database.Collection(cr.collection)
-	userId, ok := c.Value("userId").(string)
+	userId, ok := c.Value(utils.UserIDKey).(string)
 	if !ok || userId == "" {
 		return nil, fmt.Errorf("Invalid user id ")
 	}
@@ -188,9 +189,9 @@ func (cr *chimeRepository) UpdateChime(c context.Context, chimeData domain.Chime
 	return &updatedChime, nil
 }
 
-func(cr *chimeRepository) DeleteChime(c context.Context,id string)(error){
+func (cr *chimeRepository) DeleteChime(c context.Context, id string) error {
 	collection := cr.database.Collection(cr.collection)
-	userId, ok := c.Value("userId").(string)
+	userId, ok := c.Value(utils.UserIDKey).(string)
 	if !ok || userId == "" {
 		return fmt.Errorf("Invalid user id ")
 	}
