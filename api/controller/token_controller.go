@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
@@ -22,41 +21,40 @@ import (
 func (tokenController *TokenController) Refresh(c echo.Context) error {
 	var request domain.TokenRefreshRequest
 	err := c.Bind(&request)
-	if err != nil{
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, domain.BaseResponse{
 			StatusCode: http.StatusBadRequest,
-			Message: "Invalid payload",
+			Message:    "Invalid payload",
 		})
 	}
 	ctx := utils.ExtractContext(c)
-	user, err := tokenController.TokenUseCase.ValidateRefreshToken(ctx,request.RefreshToken, tokenController.Env.RefreshTokenSecretKey)
-	fmt.Printf("Error: %v",err)
-	if err != nil{
+	user, err := tokenController.TokenUseCase.ValidateRefreshToken(ctx, request.RefreshToken, tokenController.Env.RefreshTokenSecretKey)
+	if err != nil {
 		return c.JSON(http.StatusUnauthorized, domain.BaseResponse{
 			StatusCode: http.StatusUnauthorized,
-			Message: "Invalid refresh token",
+			Message:    "Invalid refresh token",
 		})
 	}
-	accessToken, err := tokenController.TokenUseCase.GenerateAccessToken(ctx, user, tokenController.Env.AccessTokenSecretKey,tokenController.Env.AccessTokenExpiryHour)
-	if err != nil{
+	accessToken, err := tokenController.TokenUseCase.GenerateAccessToken(ctx, user, tokenController.Env.AccessTokenSecretKey, tokenController.Env.AccessTokenExpiryHour)
+	if err != nil {
 		return c.JSON(http.StatusUnauthorized, domain.BaseResponse{
 			StatusCode: http.StatusUnauthorized,
-			Message: "Failed to generate token",
+			Message:    "Failed to generate token",
 		})
 	}
 	refreshToken, err := tokenController.TokenUseCase.GenerateRefreshToken(ctx, user, tokenController.Env.RefreshTokenSecretKey, tokenController.Env.RefreshTokenExpiryHour)
-	if err != nil{
+	if err != nil {
 		return c.JSON(http.StatusUnauthorized, domain.BaseResponse{
 			StatusCode: http.StatusUnauthorized,
-			Message: "Failed to generate token",
+			Message:    "Failed to generate token",
 		})
 	}
-	
+
 	tokenResponse := domain.TokenRefreshResponse{
-		AccessToken: accessToken,
+		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
-		StatusCode: http.StatusCreated,
-		Message: "Token refreshed successfully",
+		StatusCode:   http.StatusCreated,
+		Message:      "Token refreshed successfully",
 	}
 	return c.JSON(
 		http.StatusOK,
