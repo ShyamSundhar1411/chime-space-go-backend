@@ -10,16 +10,21 @@ const (
 	CollectionUser = "users"
 )
 
+type UserProfile struct {
+	User    *models.User
+	Profile *models.Profile
+}
 type UserUsecase interface {
-	GetMyProfile(c context.Context) (*models.User, error)
+	GetMyProfile(c context.Context) (*UserProfile, error)
 }
 type UserController interface {
-	GetMyProfile(c context.Context) (*models.User, error)
+	GetMyProfile(c context.Context) (UserProfile, error)
 }
+
 type UserProfileResponse struct {
 	Message    string       `json:"message"`
 	StatusCode int          `json:"statusCode"`
-	Profile    *models.User `json:"profile"`
+	Profile    *UserProfile `json:"profile"`
 }
 type UserRepository interface {
 	Create(c context.Context, user *models.User) error

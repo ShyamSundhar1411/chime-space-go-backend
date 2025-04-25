@@ -11,3 +11,8 @@ type chimeRepository struct {
 	database   mongo.Database
 	collection string
 }
+
+type profileRepository struct {
+	database   mongo.Database
+	collection string
+}

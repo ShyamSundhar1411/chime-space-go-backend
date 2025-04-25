@@ -5,18 +5,24 @@ import (
 	"time"
 
 	"github.com/ShyamSundhar1411/chime-space-go-backend/domain"
-	"github.com/ShyamSundhar1411/chime-space-go-backend/models"
 )
 
-func NewUserUseCase(userRepository domain.UserRepository,timeout time.Duration) domain.UserUsecase{
+func NewUserUseCase(userRepository domain.UserRepository, timeout time.Duration) domain.UserUsecase {
 	return &userUseCase{
 		userRepository: userRepository,
 		contextTimeout: timeout,
 	}
 }
 
-func (cu *userUseCase) GetMyProfile(c context.Context)(*models.User, error){
+func (cu *userUseCase) GetMyProfile(c context.Context) (*domain.UserProfile, error) {
 	ctx, cancel := context.WithTimeout(c, cu.contextTimeout)
 	defer cancel()
-	return cu.userRepository.GetMyProfile(ctx)
+	user, err := cu.userRepository.GetMyProfile(ctx)
+	if err != nil {
+		return nil, err
+	}
+	userProfile := &domain.UserProfile{
+		User: user,
+	}
+	return userProfile, nil
 }
